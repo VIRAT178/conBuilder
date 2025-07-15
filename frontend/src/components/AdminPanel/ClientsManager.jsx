@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/ad.css";
 
-const baseURL = "http://localhost:5000/api/v1/clients";
+const baseURL = "https://conbuilder.onrender.com/api/v1/clients";
 
 const ClientViewer = () => {
   const [clients, setClients] = useState([]);
