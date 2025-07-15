@@ -4,7 +4,7 @@ const ProjectsSection = () => {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/projects", {
+    fetch("https://conbuilder.onrender.com/api/v1/projects", {
       method: "GET",
       credentials: "include", 
     })
