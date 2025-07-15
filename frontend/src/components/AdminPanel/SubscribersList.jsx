@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/ad.css";
 
-const baseURL = "http://localhost:5000/api/v1/newsletter";
+const baseURL = "https://conbuilder.onrender.com/api/v1/newsletter";
 
 const NewsletterViewer = () => {
   const [subscribers, setSubscribers] = useState([]);
