@@ -21,7 +21,7 @@ const ContactForm = () => {
     setStatus("Submitting...");
 
     try {
-      const response = await fetch("http://localhost:5000/api/v1/contacts", {
+      const response = await fetch("https://conbuilder.onrender.com/api/v1/contacts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
