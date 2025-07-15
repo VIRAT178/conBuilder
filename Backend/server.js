@@ -24,10 +24,13 @@ app.use('/api/v1/auth', authRoutes);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
 app.use(cors({
-  origin: "http://localhost:5173", 
-  credentials: true                 
+  origin: 'https://con-builder.vercel.app', 
+  credentials: true, 
+  origin: true                        
 }));
+
 
 app.use('/api/v1/clients', clientRoutes);
 app.use('/api/v1/projects', projectRoutes);
