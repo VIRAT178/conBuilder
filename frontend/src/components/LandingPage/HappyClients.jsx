@@ -5,7 +5,7 @@ const HappyClients = () => {
   const [status, setStatus] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/clients")
+    fetch("https://conbuilder.onrender.com/api/v1/clients")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch clients");
         return res.json();
