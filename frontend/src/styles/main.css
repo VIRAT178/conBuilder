@@ -1,12 +1,10 @@
-
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: #fff;
   color: #1b2430;
   scroll-behavior: smooth;
 }
-
 
 .navbar {
   position: fixed;
@@ -16,7 +14,7 @@ body {
   background-color: #1b2430;
   color: white;
   z-index: 1000;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-container {
@@ -30,22 +28,26 @@ body {
 }
 
 .navbar-brand {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: bold;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  color: #17cf97;
+  cursor: pointer;
 }
 
 .navbar-links {
   list-style: none;
   display: flex;
   gap: 36px;
+  align-items: center;
+  transition: transform 0.3s ease;
 }
 
 .navbar-links li a {
   position: relative;
   text-decoration: none;
   color: white;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 500;
   transition: color 0.3s ease;
 }
@@ -66,45 +68,80 @@ body {
 }
 
 .navbar-links li a:hover::after {
-  width: 30%;
+  width: 100%;
 }
 
 .navbar-links li a.active {
   color: #17cf97;
 }
-
 .navbar-links li a.active::after {
-  width: 30%;
+  width: 100%;
+}
+.admin-login-btn {
+  background-color: #17cf97;
+  border: none;
+  padding: 8px 16px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.admin-login-btn:hover {
+  background-color: #13b07e;
+  transform: scale(1.05);
+}
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: white;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
 }
 
 @media (max-width: 768px) {
-  .navbar-container {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 16px;
-    height: auto;
+  .hamburger {
+    display: flex;
   }
 
   .navbar-links {
+    position: absolute;
+    top: 80px;
+    right: 0;
     flex-direction: column;
-    gap: 16px;
-    margin-top: 12px;
+    background-color: #1b2430;
+    width: 220px;
+    padding: 20px;
+    gap: 20px;
+    transform: translateX(100%);
+    box-shadow: -2px 0 6px rgba(0, 0, 0, 0.3);
   }
 
-  .navbar-brand {
-    margin-bottom: 12px;
-    font-size: 1.2rem;
-  }
-
-  .navbar-links li a {
-    font-size: 1rem;
+  .navbar-links.open {
+    transform: translateX(0);
   }
 }
 
 .hero-section {
   width: 100%;
   height: 100vh;
-  background-image: url('../assets/architects-work-25940830.webp'); 
+  background-image: url("../assets/architects-work-25940830.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -116,7 +153,6 @@ body {
   text-align: center;
 }
 
-
 .hero-section::before {
   content: "";
   position: absolute;
@@ -124,7 +160,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(27, 36, 48, 0.6); 
+  background-color: rgba(27, 36, 48, 0.6);
   z-index: 0;
 }
 
@@ -189,7 +225,7 @@ body {
 
 .why-card {
   background: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border-radius: 12px;
   padding: 30px 24px;
   max-width: 320px;
@@ -253,7 +289,6 @@ body {
   color: #555;
 }
 
-
 @media (max-width: 768px) {
   .about-container h2 {
     font-size: 1.8rem;
@@ -293,7 +328,7 @@ body {
   background-color: #f5f5f5;
   padding: 24px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease;
 }
 
@@ -355,7 +390,7 @@ body {
   background: #fff;
   padding: 20px;
   width: 300px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 }
 .client-avatar {
@@ -447,9 +482,15 @@ body {
 }
 
 @keyframes gradientAnimation {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 .footer-section {
   background: linear-gradient(to right, #1c1c3c, #2a2a5f);
@@ -461,8 +502,14 @@ body {
 }
 
 @keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(40px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .footer-container {
@@ -489,7 +536,7 @@ body {
 }
 
 .footer-links a::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 0%;
   height: 2px;
@@ -516,12 +563,16 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .about-section {
   position: relative;
-  background-image: url('../assets/silhouette-of-engineer-looking-at-construction-site-engineering-concept-double-exposure-generative-ai-free-photo.jpg'); 
+  background-image: url("../assets/silhouette-of-engineer-looking-at-construction-site-engineering-concept-double-exposure-generative-ai-free-photo.jpg");
   background-size: cover;
   background-position: center;
   padding: 100px 20px;
@@ -533,7 +584,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5); 
+  background: rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
 
@@ -547,8 +598,14 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .about-container h2 {
@@ -569,8 +626,14 @@ body {
 }
 
 @keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .projects-container {
@@ -595,7 +658,7 @@ body {
 .project-card {
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   padding: 20px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   animation: cardFade 1s ease forwards;
@@ -603,12 +666,18 @@ body {
 
 .project-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
 @keyframes cardFade {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .project-card img {
@@ -654,8 +723,14 @@ body {
 }
 
 @keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .projects-container {
@@ -680,7 +755,7 @@ body {
 .project-card {
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   padding: 20px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   animation: cardFade 1s ease forwards;
@@ -688,12 +763,18 @@ body {
 
 .project-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
 @keyframes cardFade {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .project-card img {
@@ -742,9 +823,15 @@ body {
 }
 
 @keyframes gradientFlow {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 .contact-form-container {
   position: relative;
@@ -759,8 +846,14 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .contact-section::before,
 .contact-section::after {
@@ -789,8 +882,12 @@ body {
 }
 
 @keyframes floatUp {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-20px); }
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-20px);
+  }
 }
 .contact-section::before,
 .contact-section::after {
@@ -819,37 +916,156 @@ body {
   background: radial-gradient(circle, #ff6f91 0%, #fff 100%);
 }
 
-@keyframes floatCircle {
-  0% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(30px) scale(1.05); }
-  100% { transform: translateY(-10px) scale(1); }
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 12, 24, 0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeInBg 0.6s ease forwards;
 }
-.admin-login-btn {
-  background-color: transparent;
+
+@keyframes fadeInBg {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.login-modal.sleek {
+  background: rgba(25, 28, 46, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  color: #e5e7eb;
+  animation: slideUp 0.5s ease forwards;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.login-title {
+  font-size: 1.7rem;
+  font-weight: 600;
+  margin-bottom: 25px;
+  background: linear-gradient(135deg, #2a86ff, #17cf97);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 22px;
+}
+
+.input-group input {
+  width: 95%;
+  padding: 14px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
   color: #fff;
-  border: 1px solid #fff;
-  padding: 6px 12px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: #2a86ff;
+  box-shadow: 0 0 8px rgba(42, 134, 255, 0.4);
+}
+
+.input-group label {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  color: #aaa;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top: -8px;
+  left: 10px;
+  font-size: 0.75rem;
+  color: #2a86ff;
+  background: rgba(25, 28, 46, 0.9);
+  padding: 0 4px;
   border-radius: 6px;
-  font-weight: 500;
+}
+
+.login-btn.neon-btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 15px;
+  background: linear-gradient(135deg, #2a86ff, #17cf97);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(42, 134, 255, 0.5);
+}
+
+.login-btn.neon-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 18px rgba(23, 207, 151, 0.7);
+}
+.close-btn {
+  margin-top: 20px;
+  background: transparent;
+  color: #aaa;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+.close-btn:hover {
+  color: #ff4b5c;
+}
+@media (max-width: 500px) {
+  .login-modal.sleek {
+    width: 90%;
+    padding: 30px 20px;
+  }
+  .login-title {
+    font-size: 1.4rem;
+  }
+}
+
+.admin-login-btn {
+  background-color: #17cf97;
+  color: #1b2430;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .admin-login-btn:hover {
-  background-color: #fff;
-  color: #2a86ff;
-}
-.admin-login-link {
-  color: #fff;
-  border: 1px solid #fff;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.admin-login-link:hover {
-  background-color: #fff;
-  color: #2a86ff;
+  background-color: #14b78c;
 }

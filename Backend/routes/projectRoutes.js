@@ -10,9 +10,9 @@ import { upload, cropImageMiddleware } from '../middleware/imageCropper.js';
 const router = express.Router();
 
 
-router.post('/', upload.single('image'), cropImageMiddleware, createProject);
-router.get('/', getAllProjects);
-router.put('/:id', upload.single('image'), cropImageMiddleware, updateProject);
+router.post('/' ,upload.single('image'), cropImageMiddleware, createProject);
+router.get('/',getAllProjects);
+router.put('/:id',upload.single('image'), cropImageMiddleware, updateProject);
 router.delete('/:id', deleteProject);
 
 
