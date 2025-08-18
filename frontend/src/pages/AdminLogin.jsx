@@ -1,17 +1,38 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
 import "../styles/main.css";
 
-function AdminLogin() {
+export default function AdminLogin() {
+  const backend = import.meta.env.VITE_Backend_URL;
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    
-  };
+    setLoading(true);
+    try {
+      const { data } = await axios.post(
+        `${backend}/api/v1/login`,
+        { email, password },
+        { withCredentials: true }
+      );
+      if (data.success) {
+        toast.success("Login successful!");
+        localStorage.setItem("admin-auth", "true");
+        navigate("/admin");
+      } else {
+        toast.error(data.message || "Invalid credentials");
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Server Error");
+    }
+    setLoading(false);
+  }
 
   return (
     <div className="login-overlay">
@@ -21,31 +42,35 @@ function AdminLogin() {
           <div className="input-group">
             <input
               type="email"
+              name="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               required
+              placeholder=" "
+              autoComplete="username"
             />
             <label>Email</label>
           </div>
-
           <div className="input-group">
             <input
               type="password"
+              name="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
               required
+              placeholder=" "
+              autoComplete="current-password"
             />
             <label>Password</label>
           </div>
-
-          <button type="submit" className="login-btn neon-btn">
-            Log In
+          <button type="submit" className="login-btn neon-btn" disabled={loading}>
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
-        <button className="close-btn">✖</button>
+        <div className="switch-link">
+          Don&apos;t have an account? <Link to="/admin-signup">Sign Up</Link>
+        </div>
       </div>
     </div>
   );
 }
-
-export default AdminLogin;
