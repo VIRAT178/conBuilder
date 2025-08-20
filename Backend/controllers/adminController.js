@@ -47,6 +47,10 @@ export const login = async (req, res) => {
     if (!isPasswordCorrect) {
       res.json({ success: false, message: "Inavlid Credentials" });
     }
+    if (!adminData) {
+      return res.json({ success: false, message: "Email not found" });
+    }
+
     const token = genrateToken(adminData._id);
     res.json({ success: true, message: "Logged In Successfully" });
   } catch (error) {

@@ -32,7 +32,7 @@ const Navbar = () => {
           ))}
           <li>
             <button
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/admin-login")}
               className="admin-login-btn"
             >
               Admin Login

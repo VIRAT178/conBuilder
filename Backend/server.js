@@ -16,7 +16,11 @@ import newsletterRoutes from './routes/newsletterRoutes.js';
 import AdminRoute from './routes/adminRoutes.js';
 
 const app = express();
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}))
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -26,7 +30,7 @@ app.use(cookieParser());
 
 
 
-app.use('/api/v1/login', AdminRoute);
+app.use('/api/v1', AdminRoute);
 app.use('/api/v1/clients', clientRoutes);
 app.use('/api/v1/projects', projectRoutes);
 app.use('/api/v1/contacts', contactRoutes);
