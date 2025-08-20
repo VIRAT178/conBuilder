@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import "../../../styles/ad.css";
-import Navbar from "../../LandingPage/Navbar";
+
 
 const Topbar = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const Topbar = () => {
 
   return (
     <>
-      <Navbar />
+
       <header className="admin-topbar">
         <div className="topbar-left">
           <h2>Welcome, Admin <span role="img" aria-label="peace">✌️</span></h2>
