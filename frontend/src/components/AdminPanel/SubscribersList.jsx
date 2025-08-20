@@ -1,53 +1,46 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../../styles/ad.css";
 
-const baseURL = "https://conbuilder.onrender.com/api/v1/newsletter";
+const baseURL = import.meta.env.VITE_Backend_URL + "/api/v1/newsletter";
 
 const NewsletterViewer = () => {
   const [subscribers, setSubscribers] = useState([]);
   const [formData, setFormData] = useState({ email: "" });
   const [editingId, setEditingId] = useState(null);
   const [status, setStatus] = useState("");
+  const token = localStorage.getItem("admin-auth-token");
+
+  const axiosConfig = {
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+  };
 
   useEffect(() => {
-    fetch(baseURL)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch");
-        return res.json();
-      })
-      .then((data) => setSubscribers(data))
-      .catch((err) => {
+    if (!token) {
+      setStatus("❌ Unauthorized: Please login.");
+      return;
+    }
+
+    axios.get(baseURL, axiosConfig)
+      .then(res => setSubscribers(res.data))
+      .catch(err => {
         console.error("Fetch error:", err.message);
         setStatus("❌ Failed to load subscribers.");
       });
-  }, []);
+  }, [token]);
 
-  const handleChange = (e) => {
-    setFormData({ email: e.target.value });
-  };
+  const handleChange = (e) => setFormData({ email: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Saving...");
-
     try {
       const url = editingId ? `${baseURL}/${editingId}` : baseURL;
-      const method = editingId ? "PUT" : "POST";
-
-      const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Save failed");
-
-      setSubscribers((prev) =>
-        editingId
-          ? prev.map((s) => (s._id === editingId ? data.data : s))
-          : [...prev, data.data]
-      );
-
+      const method = editingId ? "put" : "post";
+      const res = await axios[method](url, formData, axiosConfig);
+      setSubscribers(editingId
+        ? subscribers.map(s => (s._id === editingId ? res.data.data || res.data : s))
+        : [...subscribers, res.data.data || res.data]);
       setFormData({ email: "" });
       setEditingId(null);
       setStatus(editingId ? "✅ Updated!" : "✅ Added!");
@@ -64,11 +57,8 @@ const NewsletterViewer = () => {
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`${baseURL}/${id}`, { method: "DELETE" });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Delete failed");
-
-      setSubscribers((prev) => prev.filter((s) => s._id !== id));
+      await axios.delete(`${baseURL}/${id}`, axiosConfig);
+      setSubscribers(subscribers.filter(s => s._id !== id));
       setStatus("🗑️ Deleted.");
     } catch (err) {
       console.error("Delete error:", err.message);
@@ -80,32 +70,15 @@ const NewsletterViewer = () => {
     <div className="admin-section">
       <h2>{editingId ? "Edit Subscriber" : "Newsletter Subscribers"}</h2>
       {status && <p className="form-status">{status}</p>}
-
       <form onSubmit={handleSubmit} className="admin-form">
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Subscriber Email"
-          required
-        />
+        <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Subscriber Email" required />
         <button type="submit">{editingId ? "Update" : "Add Subscriber"}</button>
       </form>
-
-      {subscribers.length === 0 ? (
-        <p>No subscriptions yet.</p>
-      ) : (
+      {subscribers.length === 0 ? <p>No subscriptions yet.</p> : (
         <table className="admin-table">
-          <thead>
-            <tr>
-              <th>Email Address</th>
-              <th>Subscribed At</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Email Address</th><th>Subscribed At</th><th>Actions</th></tr></thead>
           <tbody>
-            {subscribers.map((s) => (
+            {subscribers.map(s => (
               <tr key={s._id}>
                 <td>{s.email}</td>
                 <td>{new Date(s.createdAt).toLocaleString()}</td>

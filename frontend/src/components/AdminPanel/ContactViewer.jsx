@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../../styles/ad.css";
 
-const baseURL = "https://conbuilder.onrender.com/api/v1/contacts";
+const baseURL = import.meta.env.VITE_Backend_URL + "/api/v1/contacts";
 
 const ContactViewer = () => {
   const [contacts, setContacts] = useState([]);
@@ -9,18 +10,23 @@ const ContactViewer = () => {
     fullName: "",
     email: "",
     mobile: "",
-    city: ""
+    city: "",
   });
   const [editingId, setEditingId] = useState(null);
   const [status, setStatus] = useState("");
+  const token = localStorage.getItem("admin-auth-token");
+
+  const axiosConfig = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  };
 
   useEffect(() => {
-    fetch(baseURL)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch contacts");
-        return res.json();
-      })
-      .then((data) => setContacts(data))
+    axios
+      .get(baseURL)
+      .then((res) => setContacts(res.data))
       .catch((err) => {
         console.error("Fetch error:", err.message);
         setStatus("❌ Could not load contacts.");
@@ -32,7 +38,7 @@ const ContactViewer = () => {
       fullName: c.fullName,
       email: c.email,
       mobile: c.mobile,
-      city: c.city
+      city: c.city,
     });
     setEditingId(c._id);
   };
@@ -45,44 +51,27 @@ const ContactViewer = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     setStatus("Saving...");
-
     try {
-      const res = await fetch(`${baseURL}/${editingId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Update failed");
-
+      const res = await axios.put(`${baseURL}/${editingId}`, formData, axiosConfig);
       setContacts((prev) =>
-        prev.map((c) => (c._id === editingId ? data.data : c))
+        prev.map((c) => (c._id === editingId ? res.data.data || res.data : c))
       );
-
-      setFormData({
-        fullName: "",
-        email: "",
-        mobile: "",
-        city: ""
-      });
+      setFormData({ fullName: "", email: "", mobile: "", city: "" });
       setEditingId(null);
       setStatus("✅ Contact updated!");
     } catch (err) {
-      console.error("Update error:", err.message);
+      console.error("Update error:", err.response?.data?.error || err.message);
       setStatus("❌ Failed to update contact.");
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`${baseURL}/${id}`, { method: "DELETE" });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Delete failed");
-
+      await axios.delete(`${baseURL}/${id}`, axiosConfig);
       setContacts((prev) => prev.filter((c) => c._id !== id));
       setStatus("🗑️ Contact deleted.");
     } catch (err) {
-      console.error("Delete error:", err.message);
+      console.error("Delete error:", err.response?.data?.error || err.message);
       setStatus("❌ Failed to delete.");
     }
   };

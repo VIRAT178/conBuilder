@@ -1,33 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../../styles/ad.css";
 
-const baseURL = "https://conbuilder.onrender.com/api/v1/projects";
+const baseURL = import.meta.env.VITE_Backend_URL + "/api/v1/projects";
 
 const ProjectManager = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     image: null,
-    category: "Consultation"
+    category: "Consultation",
   });
   const [projects, setProjects] = useState([]);
   const [preview, setPreview] = useState(null);
   const [status, setStatus] = useState("");
   const [editingId, setEditingId] = useState(null);
+  const token = localStorage.getItem("admin-auth-token");
+
+  const axiosConfig = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  };
 
   useEffect(() => {
-    fetch(baseURL)
-      .then((res) => res.json())
-      .then((data) => setProjects(data))
+    axios
+      .get(baseURL)
+      .then((res) => setProjects(res.data))
       .catch((err) => console.error("Fetch error:", err));
   }, []);
-
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "image") {
       setFormData((prev) => ({ ...prev, image: files[0] }));
-      setPreview(URL.createObjectURL(files[0]));
+      setPreview(URL.createObjectURL(files));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
@@ -45,58 +53,51 @@ const ProjectManager = () => {
 
     try {
       const url = editingId ? `${baseURL}/${editingId}` : baseURL;
-      const method = editingId ? "PUT" : "POST";
+      const method = editingId ? "put" : "post";
 
-      const res = await fetch(url, { method, body: payload });
-      const data = await res.json();
+      const res = await axios[method](url, payload, axiosConfig);
 
-      if (!res.ok) throw new Error(data.error || "Failed");
+      const savedProject = res.data.data || res.data;
 
       setStatus(editingId ? "✅ Project updated!" : "✅ Project added!");
       setFormData({
         title: "",
         description: "",
         image: null,
-        category: "Consultation"
+        category: "Consultation",
       });
       setPreview(null);
       setEditingId(null);
 
-
       const updatedList = editingId
-        ? projects.map((p) => (p._id === editingId ? data.data : p))
-        : [...projects, data.data];
+        ? projects.map((p) => (p._id === editingId ? savedProject : p))
+        : [...projects, savedProject];
 
       setProjects(updatedList);
     } catch (err) {
-      console.error("Submit error:", err.message);
+      console.error("Submit error:", err.response?.data?.error || err.message);
       setStatus("❌ Failed to save project.");
     }
   };
 
-  
   const handleEdit = (p) => {
     setFormData({
       title: p.title,
       description: p.description,
       image: null,
-      category: p.category
+      category: p.category,
     });
-    setPreview(`http://localhost:5000${p.imageUrl}`);
+    setPreview(import.meta.env.VITE_Backend_URL + p.imageUrl);
     setEditingId(p._id);
   };
 
-
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`${baseURL}/${id}`, { method: "DELETE" });
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.error || "Delete failed");
+      await axios.delete(`${baseURL}/${id}`, axiosConfig);
       setProjects((prev) => prev.filter((p) => p._id !== id));
       setStatus("🗑️ Project deleted.");
     } catch (err) {
-      console.error("Delete error:", err.message);
+      console.error("Delete error:", err.response?.data?.error || err.message);
       setStatus("❌ Failed to delete.");
     }
   };
@@ -132,15 +133,8 @@ const ProjectManager = () => {
           <option value="Marketing & Design">Marketing & Design</option>
           <option value="Consultation & Marketing">Consultation & Marketing</option>
         </select>
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleChange}
-        />
-        {preview && (
-          <img src={preview} alt="Preview" className="image-preview" />
-        )}
+        <input type="file" name="image" accept="image/*" onChange={handleChange} />
+        {preview && <img src={preview} alt="Preview" className="image-preview" />}
         <button type="submit">{editingId ? "Update Project" : "Upload Project"}</button>
         {status && <p className="form-status">{status}</p>}
       </form>
@@ -161,7 +155,7 @@ const ProjectManager = () => {
             <tr key={p._id}>
               <td>
                 <img
-                  src={`http://localhost:5000${p.imageUrl}`}
+                  src={`${import.meta.env.VITE_Backend_URL}${p.imageUrl}`}
                   alt={p.title}
                   style={{ width: "90px", borderRadius: "6px", objectFit: "cover" }}
                 />

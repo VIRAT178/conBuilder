@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../../styles/ad.css";
 
-const baseURL = "https://conbuilder.onrender.com/api/v1/clients";
+const baseURL = import.meta.env.VITE_Backend_URL + "/api/v1/clients";
 
 const ClientViewer = () => {
   const [clients, setClients] = useState([]);
@@ -9,16 +10,24 @@ const ClientViewer = () => {
     name: "",
     role: "",
     testimonial: "",
-    image: null
+    image: null,
   });
   const [preview, setPreview] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [status, setStatus] = useState("");
 
+  const token = localStorage.getItem("admin-auth-token");
+  const axiosConfig = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  };
+
   useEffect(() => {
-    fetch(baseURL)
-      .then((res) => res.json())
-      .then((data) => setClients(data))
+    axios
+      .get(baseURL)
+      .then((res) => setClients(res.data))
       .catch((err) => {
         console.error("Fetch error:", err.message);
         setStatus("❌ Could not load clients.");
@@ -29,7 +38,7 @@ const ClientViewer = () => {
     const { name, value, files } = e.target;
     if (name === "image") {
       setFormData((prev) => ({ ...prev, image: files[0] }));
-      setPreview(URL.createObjectURL(files[0]));
+      setPreview(URL.createObjectURL(files));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
@@ -47,14 +56,14 @@ const ClientViewer = () => {
 
     try {
       const url = editingId ? `${baseURL}/${editingId}` : baseURL;
-      const method = editingId ? "PUT" : "POST";
+      const method = editingId ? "put" : "post";
 
-      const res = await fetch(url, { method, body: payload });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Save failed");
+      const res = await axios[method](url, payload, axiosConfig);
+
+      const savedClient = editingId ? res.data.data : res.data.data || res.data;
 
       setClients((prev) =>
-        editingId ? prev.map((c) => (c._id === editingId ? data.data : c)) : [...prev, data.data]
+        editingId ? prev.map((c) => (c._id === editingId ? savedClient : c)) : [...prev, savedClient]
       );
 
       setFormData({ name: "", role: "", testimonial: "", image: null });
@@ -62,7 +71,7 @@ const ClientViewer = () => {
       setEditingId(null);
       setStatus(editingId ? "✅ Client updated!" : "✅ Client added!");
     } catch (err) {
-      console.error("Submit error:", err.message);
+      console.error("Submit error:", err.response?.data?.error || err.message);
       setStatus("❌ Failed to save client.");
     }
   };
@@ -72,22 +81,19 @@ const ClientViewer = () => {
       name: client.name,
       role: client.role,
       testimonial: client.testimonial,
-      image: null
+      image: null,
     });
-    setPreview(`http://localhost:5000${client.imageUrl}`);
+    setPreview(import.meta.env.VITE_Backend_URL + client.imageUrl);
     setEditingId(client._id);
   };
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`${baseURL}/${id}`, { method: "DELETE" });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Delete failed");
-
+      await axios.delete(`${baseURL}/${id}`, axiosConfig);
       setClients((prev) => prev.filter((c) => c._id !== id));
       setStatus("🗑️ Client deleted.");
     } catch (err) {
-      console.error("Delete error:", err.message);
+      console.error("Delete error:", err.response?.data?.error || err.message);
       setStatus("❌ Failed to delete.");
     }
   };
@@ -119,15 +125,8 @@ const ClientViewer = () => {
           onChange={handleChange}
           rows="3"
         />
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleChange}
-        />
-        {preview && (
-          <img src={preview} alt="Preview" className="image-preview" />
-        )}
+        <input type="file" name="image" accept="image/*" onChange={handleChange} />
+        {preview && <img src={preview} alt="Preview" className="image-preview" />}
         <button type="submit">{editingId ? "Update Client" : "Upload Client"}</button>
         {status && <p className="form-status">{status}</p>}
       </form>
@@ -148,7 +147,7 @@ const ClientViewer = () => {
             <tr key={c._id}>
               <td>
                 <img
-                  src={`http://localhost:5000${c.imageUrl}`}
+                  src={`${import.meta.env.VITE_Backend_URL}${c.imageUrl}`}
                   alt={c.name}
                   style={{ width: "80px", borderRadius: "50%" }}
                 />
