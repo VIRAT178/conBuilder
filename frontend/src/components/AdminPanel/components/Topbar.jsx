@@ -1,19 +1,27 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import "../../../styles/ad.css"; 
+import axios from "axios";
+import "../../../styles/ad.css";
 
 const Topbar = () => {
   const navigate = useNavigate();
+  const backend = import.meta.env.VITE_Backend_URL;
 
   const handleLogout = async () => {
-    await fetch("https://conbuilder.onrender.com/api/v1/auth/logout", {
-      method: "POST",
-      credentials: "include"
-    });
-    localStorage.removeItem("admin-auth");
-    toast.info("Logged out");
-    navigate("/login");
+    try {
+      await axios.post(
+        `${backend}/api/v1/auth/logout`,
+        {},
+        { withCredentials: true }
+      );
+      localStorage.removeItem("admin-auth-token");
+      localStorage.removeItem("admin-auth");
+      toast.info("Logged out");
+      navigate("/admin-login");
+    } catch (error) {
+      toast.error("Logout failed. Please try again.");
+    }
   };
 
   return (

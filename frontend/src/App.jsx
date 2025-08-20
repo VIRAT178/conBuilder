@@ -7,13 +7,13 @@ import AdminLogin from "../src/pages/AdminLogin";
 import AdminSignup from "../src/pages/AdminSignUp.jsx"; 
 import AdminDashboard from '../src/pages/AdminDashboard.jsx';
 import "./styles/main.css";
-import ProtectedRoute from "./ProtectedRoute.jsx"; 
+import ProtectedRoute from './ProtectedRoute.jsx';
+
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-signup" element={<AdminSignup />} />
 
@@ -26,11 +26,7 @@ function App() {
           }
         />
       </Routes>
-
-      <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 }
-
 export default App;
-

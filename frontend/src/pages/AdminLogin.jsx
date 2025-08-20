@@ -22,8 +22,9 @@ export default function AdminLogin() {
         { withCredentials: true }
       );
       if (data.success) {
+        localStorage.setItem("admin-auth-token", data.token);
+        localStorage.setItem("admin-auth", "true"); 
         toast.success("Login successful!");
-        localStorage.setItem("admin-auth", "true");
         navigate("/admin");
       } else {
         toast.error(data.message || "Invalid credentials");
@@ -44,7 +45,7 @@ export default function AdminLogin() {
               type="email"
               name="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               required
               placeholder=" "
               autoComplete="username"
@@ -56,14 +57,18 @@ export default function AdminLogin() {
               type="password"
               name="password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               required
               placeholder=" "
               autoComplete="current-password"
             />
             <label>Password</label>
           </div>
-          <button type="submit" className="login-btn neon-btn" disabled={loading}>
+          <button
+            type="submit"
+            className="login-btn neon-btn"
+            disabled={loading}
+          >
             {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
