@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import "../../../styles/ad.css";
 
-
 const Topbar = () => {
   const navigate = useNavigate();
   const backend = import.meta.env.VITE_Backend_URL;
@@ -26,19 +25,18 @@ const Topbar = () => {
   };
 
   return (
-    <>
-
-      <header className="admin-topbar">
-        <div className="topbar-left">
-          <h2>Welcome, Admin <span role="img" aria-label="peace">✌️</span></h2>
-        </div>
-        <div className="topbar-right">
-          <button className="logout-btn" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-      </header>
-    </>
+    <header className="admin-topbar">
+      <div className="topbar-left">
+        <h2>
+          Welcome, Admin <span role="img" aria-label="peace">✌️</span>
+        </h2>
+      </div>
+      <div className="topbar-right">
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
+    </header>
   );
 };
 

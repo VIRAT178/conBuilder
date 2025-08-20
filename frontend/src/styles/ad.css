@@ -1,44 +1,53 @@
 .admin-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
   background-color: #1b2430;
   color: #17cf97;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 24px;
-  height: 60px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   font-weight: 600;
   font-size: 1.25rem;
-  position: sticky;
-  top: 80px;  
-  z-index: 100;
+  z-index: 1100;
 }
 
-.logout-btn {
+.topbar-left h2 {
+  margin: 0;
+}
+
+.topbar-right .logout-btn {
   background-color: #17cf97;
   border: none;
-  padding: 8px 18px;
+  padding: 8px 20px;
   border-radius: 6px;
   color: #1b2430;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.15s ease;
 }
 
-.logout-btn:hover {
+.topbar-right .logout-btn:hover,
+.topbar-right .logout-btn:focus {
   background-color: #13b77f;
   transform: scale(1.05);
+  outline: none;
 }
+
 .admin-sidebar {
   width: 220px;
   background-color: #1b2430;
-  height: calc(100vh - 140px); /* considering navbar + topbar height */
+  height: calc(100vh - 140px);
   padding: 20px 16px;
   position: fixed;
-  top: 140px; /* below navbar + topbar */
+  top: 140px;
   left: 0;
   color: #17cf97;
-  box-shadow: inset -3px 0 8px rgba(0,0,0,0.2);
+  box-shadow: inset -3px 0 8px rgba(0, 0, 0, 0.2);
   font-weight: 600;
   display: flex;
   flex-direction: column;
@@ -84,12 +93,11 @@
 .admin-section {
   background: #1f2a38;
   padding: 32px;
-  margin-left: 240px; 
-  min-height: calc(100vh - 140px); 
+  margin-left: 240px;
+  min-height: calc(100vh - 140px);
   color: #e0e6ed;
   font-family: "Poppins", sans-serif;
 }
-
 
 .admin-form {
   background: #293541;
@@ -105,7 +113,6 @@
   transform: translateY(-3px);
   box-shadow: 0 12px 30px rgba(23, 207, 151, 0.5);
 }
-
 
 .modern-input,
 .modern-textarea,
@@ -168,7 +175,8 @@
   font-size: 1.1rem;
   cursor: pointer;
   color: #1b2430;
-  transition: background-color 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+  transition: background-color 0.25s ease, transform 0.15s ease,
+    box-shadow 0.25s ease;
   display: inline-block;
   box-shadow: 0 5px 12px rgba(23, 207, 151, 0.6);
 }
@@ -179,7 +187,6 @@
   transform: scale(1.05);
   box-shadow: 0 8px 20px rgba(23, 207, 151, 0.9);
 }
-
 
 .image-preview,
 .image-preview.modern-preview {
@@ -253,7 +260,6 @@
   transform: scale(1.1);
 }
 
-
 .admin-table tbody {
   max-height: 400px;
   overflow-y: auto;
@@ -265,4 +271,100 @@
   display: table;
   width: 100%;
   table-layout: fixed;
+}
+
+@media (max-width: 1024px) {
+  .admin-section {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  .admin-sidebar {
+    position: fixed;
+    top: 140px;
+    left: -260px;
+    width: 220px;
+    height: calc(100vh - 140px);
+    background-color: #1b2430;
+    transition: left 0.3s ease;
+    z-index: 2000;
+  }
+
+  .admin-sidebar.active {
+    left: 0;
+  }
+
+  .sidebar-toggle-btn {
+    position: fixed;
+    top: 110px;
+    left: 16px;
+    background-color: #17cf97;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2100;
+    box-shadow: 0 4px 10px rgba(23, 207, 151, 0.7);
+  }
+  .admin-topbar {
+    padding: 0 16px;
+    font-size: 1rem;
+  }
+
+  .admin-form,
+  .modern-form {
+    width: 100% !important;
+    padding: 20px !important;
+  }
+
+  .modern-input,
+  .modern-textarea,
+  .modern-select,
+  .modern-file-input {
+    font-size: 1.1rem;
+  }
+
+  .admin-table,
+  .admin-table.modern-table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  .admin-table thead,
+  .admin-table tbody,
+  .admin-table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .modern-btn,
+  .admin-table button {
+    padding: 14px 24px;
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-brand {
+    font-size: 1.3rem;
+  }
+  .admin-section,
+  .main-content {
+    padding-top: 60px;
+  }
+  .sidebar-toggle-btn {
+    top: 100px;
+    left: 10px;
+    padding: 6px 12px;
+  }
+
+  .modern-btn {
+    width: 100%;
+  }
+
+  .navbar-links {
+    gap: 18px;
+  }
 }
