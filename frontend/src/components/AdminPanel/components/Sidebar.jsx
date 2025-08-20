@@ -1,33 +1,44 @@
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import React from "react";
 
 const Sidebar = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
-    <nav className="admin-sidebar">
-      <h2 className="sidebar-title">Admin Panel</h2>
-      <ul className="sidebar-menu">
-        <li>
-          <NavLink to="/admin/projects" className={({ isActive }) => isActive ? "active-link" : ""}>
-            Projects
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/admin/clients" className={({ isActive }) => isActive ? "active-link" : ""}>
-            Clients
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/admin/contacts" className={({ isActive }) => isActive ? "active-link" : ""}>
-            Contact Forms
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/admin/newsletter" className={({ isActive }) => isActive ? "active-link" : ""}>
-            Subscribers
-          </NavLink>
-        </li>
-      </ul>
-    </nav>
+    <>
+      <button
+        className="sidebar-toggle-btn"
+        aria-label="Toggle sidebar"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        ☰
+      </button>
+      <nav className={`admin-sidebar ${isOpen ? "open" : "closed"}`}>
+        <h2 className="sidebar-title">Admin Panel</h2>
+        <ul className="sidebar-menu">
+          <li>
+            <NavLink to="/admin/projects" className={({ isActive }) => (isActive ? "active-link" : "")}>
+              Projects
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/admin/clients" className={({ isActive }) => (isActive ? "active-link" : "")}>
+              Clients
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/admin/contacts" className={({ isActive }) => (isActive ? "active-link" : "")}>
+              Contact Forms
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/admin/newsletter" className={({ isActive }) => (isActive ? "active-link" : "")}>
+              Subscribers
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
+    </>
   );
 };
 
