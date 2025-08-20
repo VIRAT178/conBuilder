@@ -35,20 +35,20 @@ export const SignUp = async (req, res) => {
     res.json({ success: error, message: error.message });
   }
 };
-
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const adminData = await Admin.findOne({ email });
+    if (!adminData) {
+      return res.json({ success: false, message: "Email not found" });
+    }
+
     const isPasswordCorrect = await bcrypt.compare(
       password,
       adminData.password
     );
     if (!isPasswordCorrect) {
-      res.json({ success: false, message: "Inavlid Credentials" });
-    }
-    if (!adminData) {
-      return res.json({ success: false, message: "Email not found" });
+      return res.json({ success: false, message: "Invalid Credentials" });
     }
 
     const token = genrateToken(adminData._id);
@@ -59,6 +59,6 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
-    res.json({ success: false, message: error.message });
+    return res.json({ success: false, message: error.message });
   }
 };
