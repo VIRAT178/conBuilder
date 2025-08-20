@@ -1,5 +1,3 @@
-
-
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -7,20 +5,19 @@ import "dotenv/config";
 import path from 'path';
 import cookieParser from 'cookie-parser';
 
-
-
 import projectRoutes from './routes/projectRoutes.js';
-import clientRoutes from './routes/clientRoutes.js' 
+import clientRoutes from './routes/clientRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
 import newsletterRoutes from './routes/newsletterRoutes.js';
 import AdminRoute from './routes/adminRoutes.js';
+import authRoutes from './routes/authRoutes.js'; 
 
 const app = express();
+
 app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true,
-}))
-
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -28,16 +25,13 @@ app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 app.use(cookieParser());
 
 
-
+app.use('/api/v1', authRoutes);
 
 app.use('/api/v1', AdminRoute);
 app.use('/api/v1/clients', clientRoutes);
 app.use('/api/v1/projects', projectRoutes);
 app.use('/api/v1/contacts', contactRoutes);
 app.use('/api/v1/newsletter', newsletterRoutes);
-
-
-
 
 const connectDB = async () => {
   try {

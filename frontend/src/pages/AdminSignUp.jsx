@@ -18,24 +18,23 @@ export default function AdminSignup() {
   function handleChange(e) {
     setFields({ ...fields, [e.target.name]: e.target.value });
   }
+async function handleSubmit(e) {
+  e.preventDefault();
+  setLoading(true);
+  try {
+    const { data } = await axios.post(`${backend}/api/v1/signup`, fields);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const { data } = await axios.post(`${backend}/api/v1/login/signup`, fields);
-
-      if (data.success) {
-        toast.success("Signup successful! Please log in.");
-        navigate("/admin-login");
-      } else {
-        toast.error(data.message || "Signup failed.");
-      }
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Server error.");
+    if (data.success) {
+      toast.success("Signup successful! Please log in.");
+      navigate("/admin-login");
+    } else {
+      toast.error(data.message || "Signup failed.");
     }
-    setLoading(false);
+  } catch (err) {
+    toast.error(err.response?.data?.message || "Server error.");
   }
+  setLoading(false);
+}
 
   return (
     <div className="login-overlay">

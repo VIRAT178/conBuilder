@@ -5,9 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 import LandingPage from "../src/pages/LandingPage.jsx";
 import AdminLogin from "../src/pages/AdminLogin";
 import AdminSignup from "../src/pages/AdminSignUp.jsx"; 
-import AdminDashboard from '../src/pages/AdminDashboard.jsx'
+import AdminDashboard from '../src/pages/AdminDashboard.jsx';
 import "./styles/main.css";
-
+import ProtectedRoute from "./ProtectedRoute.jsx"; 
 function App() {
   return (
     <>
@@ -20,9 +20,9 @@ function App() {
         <Route
           path="/admin/*"
           element={
-           
+            <ProtectedRoute>
               <AdminDashboard />
-         
+            </ProtectedRoute>
           }
         />
       </Routes>
@@ -33,3 +33,4 @@ function App() {
 }
 
 export default App;
+

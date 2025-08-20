@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Routes, Route, Navigate } from "react-router-dom";
+import axios from "axios";
 import { toast } from "react-toastify";
 import Sidebar from "../components/AdminPanel/components/Sidebar";
 import Topbar from "../components/AdminPanel/components/Topbar";
@@ -12,20 +13,37 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const [authorized, setAuthorized] = useState(null);
 
-  useEffect(() => {
-    fetch("https://conbuilder.onrender.com/api/v1/auth/check", {
-      method: "GET",
-      credentials: "include"
-    })
-      .then(res => setAuthorized(res.ok))
-      .catch(() => {
-        toast.error("Session expired. Please login again.");
-        navigate("/login");
-      });
-  }, []);
+
+useEffect(() => {
+  const token = localStorage.getItem("admin-auth-token");
+  if (!token) {
+    toast.error("Session expired. Please login again.");
+    navigate("/admin-login", { replace: true });
+    return;
+  }
+  axios.get("https://conbuilder.onrender.com/api/v1/auth/check", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  .then(res => {
+    if (res.data.success) {
+      setAuthorized(true);
+    } else {
+      setAuthorized(false);
+      toast.error("Session expired. Please login again.");
+      navigate("/admin-login", { replace: true });
+    }
+  })
+  .catch(() => {
+    setAuthorized(false);
+    toast.error("Session expired. Please login again.");
+    navigate("/admin-login", { replace: true });
+  });
+}, [navigate]);
 
   if (authorized === null) return <div>Loading Dashboard...</div>;
-  if (authorized === false) return <Navigate to="/login" replace />;
+  if (authorized === false) return <Navigate to="/admin-login" replace />;
 
   return (
     <div className="admin-dashboard">
