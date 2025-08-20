@@ -60,7 +60,12 @@ const ProjectManager = () => {
       const savedProject = res.data.data || res.data;
 
       setStatus(editingId ? "✅ Project updated!" : "✅ Project added!");
-      setFormData({ title: "", description: "", image: null, category: "Consultation" });
+      setFormData({
+        title: "",
+        description: "",
+        image: null,
+        category: "Consultation",
+      });
       setPreview(null);
       setEditingId(null);
 
@@ -98,7 +103,7 @@ const ProjectManager = () => {
   };
 
   return (
-    <div className="admin-section" style={{ marginLeft: "240px", padding: "24px" }}>
+    <div className="admin-section">
       <h2>{editingId ? "Edit Project" : "Add Project"}</h2>
       <form onSubmit={handleSubmit} className="admin-form modern-form">
         <input
@@ -131,9 +136,17 @@ const ProjectManager = () => {
           <option value="Marketing & Design">Marketing & Design</option>
           <option value="Consultation & Marketing">Consultation & Marketing</option>
         </select>
-        <input type="file" name="image" accept="image/*" onChange={handleChange} className="modern-file-input" />
+        <input
+          type="file"
+          name="image"
+          accept="image/*"
+          onChange={handleChange}
+          className="modern-file-input"
+        />
         {preview && <img src={preview} alt="Preview" className="image-preview modern-preview" />}
-        <button type="submit" className="modern-btn">{editingId ? "Update Project" : "Upload Project"}</button>
+        <button type="submit" className="modern-btn">
+          {editingId ? "Update Project" : "Upload Project"}
+        </button>
         {status && <p className="form-status">{status}</p>}
       </form>
 
@@ -151,7 +164,13 @@ const ProjectManager = () => {
         <tbody>
           {projects.map((p) => (
             <tr key={p._id}>
-              <td><img src={`${import.meta.env.VITE_Backend_URL}${p.imageUrl}`} alt={p.title} style={{ width: "90px", borderRadius: "6px", objectFit: "cover" }} /></td>
+              <td>
+                <img
+                  src={`${import.meta.env.VITE_Backend_URL}${p.imageUrl}`}
+                  alt={p.title}
+                  style={{ width: "90px", borderRadius: "6px", objectFit: "cover" }}
+                />
+              </td>
               <td>{p.title}</td>
               <td>{p.category}</td>
               <td>{p.description}</td>

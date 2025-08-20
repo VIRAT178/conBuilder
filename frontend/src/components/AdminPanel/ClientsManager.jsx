@@ -59,7 +59,6 @@ const ClientsManager = () => {
       const method = editingId ? "put" : "post";
       const res = await axios[method](url, payload, axiosConfig);
 
-      // Determine client data in response
       const savedClient = editingId ? res.data.data : res.data.data || res.data;
 
       setClients((prev) =>
@@ -99,7 +98,7 @@ const ClientsManager = () => {
   };
 
   return (
-    <div className="admin-section" style={{ marginLeft: "240px", padding: "24px" }}>
+    <div className="admin-section">
       <h2>{editingId ? "Edit Client" : "Add Client"}</h2>
       <form onSubmit={handleSubmit} className="admin-form modern-form">
         <input
@@ -128,13 +127,7 @@ const ClientsManager = () => {
           rows="3"
           className="modern-textarea"
         />
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleChange}
-          className="modern-file-input"
-        />
+        <input type="file" name="image" accept="image/*" onChange={handleChange} className="modern-file-input" />
         {preview && <img src={preview} alt="Preview" className="image-preview modern-preview" />}
         <button type="submit" className="modern-btn">
           {editingId ? "Update Client" : "Upload Client"}

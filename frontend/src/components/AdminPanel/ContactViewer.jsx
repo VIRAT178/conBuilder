@@ -77,7 +77,7 @@ const ContactViewer = () => {
   };
 
   return (
-    <div className="admin-section" style={{ marginLeft: "240px", padding: "24px" }}>
+    <div className="admin-section">
       <h2>{editingId ? "Edit Contact" : "Contact Form Responses"}</h2>
       {status && <p className="form-status">{status}</p>}
       {editingId && (
@@ -124,7 +124,7 @@ const ContactViewer = () => {
         </form>
       )}
 
-      <table className="admin-table">
+      <table className="admin-table modern-table">
         <thead>
           <tr>
             <th>Full Name</th>
@@ -154,3 +154,4 @@ const ContactViewer = () => {
 };
 
 export default ContactViewer;
+

@@ -70,7 +70,7 @@ const NewsletterViewer = () => {
   };
 
   return (
-    <div className="admin-section" style={{ marginLeft: "240px", padding: "24px" }}>
+    <div className="admin-section">
       <h2>{editingId ? "Edit Subscriber" : "Newsletter Subscribers"}</h2>
       {status && <p className="form-status">{status}</p>}
 
