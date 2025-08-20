@@ -4,7 +4,7 @@ import "../../styles/ad.css";
 
 const baseURL = import.meta.env.VITE_Backend_URL + "/api/v1/clients";
 
-const ClientViewer = () => {
+const ClientsManager = () => {
   const [clients, setClients] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
@@ -15,8 +15,8 @@ const ClientViewer = () => {
   const [preview, setPreview] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [status, setStatus] = useState("");
-
   const token = localStorage.getItem("admin-auth-token");
+
   const axiosConfig = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -57,9 +57,9 @@ const ClientViewer = () => {
     try {
       const url = editingId ? `${baseURL}/${editingId}` : baseURL;
       const method = editingId ? "put" : "post";
-
       const res = await axios[method](url, payload, axiosConfig);
 
+      // Determine client data in response
       const savedClient = editingId ? res.data.data : res.data.data || res.data;
 
       setClients((prev) =>
@@ -99,9 +99,9 @@ const ClientViewer = () => {
   };
 
   return (
-    <div className="admin-section">
+    <div className="admin-section" style={{ marginLeft: "240px", padding: "24px" }}>
       <h2>{editingId ? "Edit Client" : "Add Client"}</h2>
-      <form onSubmit={handleSubmit} className="admin-form">
+      <form onSubmit={handleSubmit} className="admin-form modern-form">
         <input
           type="text"
           name="name"
@@ -109,6 +109,7 @@ const ClientViewer = () => {
           value={formData.name}
           onChange={handleChange}
           required
+          className="modern-input"
         />
         <input
           type="text"
@@ -117,6 +118,7 @@ const ClientViewer = () => {
           value={formData.role}
           onChange={handleChange}
           required
+          className="modern-input"
         />
         <textarea
           name="testimonial"
@@ -124,15 +126,24 @@ const ClientViewer = () => {
           value={formData.testimonial}
           onChange={handleChange}
           rows="3"
+          className="modern-textarea"
         />
-        <input type="file" name="image" accept="image/*" onChange={handleChange} />
-        {preview && <img src={preview} alt="Preview" className="image-preview" />}
-        <button type="submit">{editingId ? "Update Client" : "Upload Client"}</button>
+        <input
+          type="file"
+          name="image"
+          accept="image/*"
+          onChange={handleChange}
+          className="modern-file-input"
+        />
+        {preview && <img src={preview} alt="Preview" className="image-preview modern-preview" />}
+        <button type="submit" className="modern-btn">
+          {editingId ? "Update Client" : "Upload Client"}
+        </button>
         {status && <p className="form-status">{status}</p>}
       </form>
 
       <h3>All Clients</h3>
-      <table className="admin-table">
+      <table className="admin-table modern-table">
         <thead>
           <tr>
             <th>Image</th>
@@ -149,7 +160,7 @@ const ClientViewer = () => {
                 <img
                   src={`${import.meta.env.VITE_Backend_URL}${c.imageUrl}`}
                   alt={c.name}
-                  style={{ width: "80px", borderRadius: "50%" }}
+                  style={{ width: "80px", borderRadius: "50%", objectFit: "cover" }}
                 />
               </td>
               <td>{c.name}</td>
@@ -167,4 +178,4 @@ const ClientViewer = () => {
   );
 };
 
-export default ClientViewer;
+export default ClientsManager;

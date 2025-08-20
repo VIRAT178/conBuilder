@@ -77,12 +77,11 @@ const ContactViewer = () => {
   };
 
   return (
-    <div className="admin-section">
+    <div className="admin-section" style={{ marginLeft: "240px", padding: "24px" }}>
       <h2>{editingId ? "Edit Contact" : "Contact Form Responses"}</h2>
       {status && <p className="form-status">{status}</p>}
-
       {editingId && (
-        <form onSubmit={handleUpdate} className="admin-form">
+        <form onSubmit={handleUpdate} className="admin-form modern-form">
           <input
             type="text"
             name="fullName"
@@ -90,6 +89,7 @@ const ContactViewer = () => {
             onChange={handleChange}
             placeholder="Full Name"
             required
+            className="modern-input"
           />
           <input
             type="email"
@@ -98,6 +98,7 @@ const ContactViewer = () => {
             onChange={handleChange}
             placeholder="Email"
             required
+            className="modern-input"
           />
           <input
             type="text"
@@ -106,6 +107,7 @@ const ContactViewer = () => {
             onChange={handleChange}
             placeholder="Mobile Number"
             required
+            className="modern-input"
           />
           <input
             type="text"
@@ -114,8 +116,11 @@ const ContactViewer = () => {
             onChange={handleChange}
             placeholder="City"
             required
+            className="modern-input"
           />
-          <button type="submit">Update Contact</button>
+          <button type="submit" className="modern-btn">
+            Update Contact
+          </button>
         </form>
       )}
 

@@ -21,9 +21,10 @@ const NewsletterViewer = () => {
       return;
     }
 
-    axios.get(baseURL, axiosConfig)
-      .then(res => setSubscribers(res.data))
-      .catch(err => {
+    axios
+      .get(baseURL, axiosConfig)
+      .then((res) => setSubscribers(res.data))
+      .catch((err) => {
         console.error("Fetch error:", err.message);
         setStatus("❌ Failed to load subscribers.");
       });
@@ -38,9 +39,11 @@ const NewsletterViewer = () => {
       const url = editingId ? `${baseURL}/${editingId}` : baseURL;
       const method = editingId ? "put" : "post";
       const res = await axios[method](url, formData, axiosConfig);
-      setSubscribers(editingId
-        ? subscribers.map(s => (s._id === editingId ? res.data.data || res.data : s))
-        : [...subscribers, res.data.data || res.data]);
+      setSubscribers(
+        editingId
+          ? subscribers.map((s) => (s._id === editingId ? res.data.data || res.data : s))
+          : [...subscribers, res.data.data || res.data]
+      );
       setFormData({ email: "" });
       setEditingId(null);
       setStatus(editingId ? "✅ Updated!" : "✅ Added!");
@@ -58,7 +61,7 @@ const NewsletterViewer = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${baseURL}/${id}`, axiosConfig);
-      setSubscribers(subscribers.filter(s => s._id !== id));
+      setSubscribers(subscribers.filter((s) => s._id !== id));
       setStatus("🗑️ Deleted.");
     } catch (err) {
       console.error("Delete error:", err.message);
@@ -67,18 +70,38 @@ const NewsletterViewer = () => {
   };
 
   return (
-    <div className="admin-section">
+    <div className="admin-section" style={{ marginLeft: "240px", padding: "24px" }}>
       <h2>{editingId ? "Edit Subscriber" : "Newsletter Subscribers"}</h2>
       {status && <p className="form-status">{status}</p>}
-      <form onSubmit={handleSubmit} className="admin-form">
-        <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Subscriber Email" required />
-        <button type="submit">{editingId ? "Update" : "Add Subscriber"}</button>
+
+      <form onSubmit={handleSubmit} className="admin-form modern-form">
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Subscriber Email"
+          required
+          className="modern-input"
+        />
+        <button type="submit" className="modern-btn">
+          {editingId ? "Update" : "Add Subscriber"}
+        </button>
       </form>
-      {subscribers.length === 0 ? <p>No subscriptions yet.</p> : (
-        <table className="admin-table">
-          <thead><tr><th>Email Address</th><th>Subscribed At</th><th>Actions</th></tr></thead>
+
+      {subscribers.length === 0 ? (
+        <p>No subscriptions yet.</p>
+      ) : (
+        <table className="admin-table modern-table">
+          <thead>
+            <tr>
+              <th>Email Address</th>
+              <th>Subscribed At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
           <tbody>
-            {subscribers.map(s => (
+            {subscribers.map((s) => (
               <tr key={s._id}>
                 <td>{s.email}</td>
                 <td>{new Date(s.createdAt).toLocaleString()}</td>

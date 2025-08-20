@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import "../../../styles/ad.css";
+import Navbar from "../../LandingPage/Navbar";
 
 const Topbar = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Topbar = () => {
       );
       localStorage.removeItem("admin-auth-token");
       localStorage.removeItem("admin-auth");
-      toast.info("Logged out");
+      toast.info("Logged out successfully");
       navigate("/admin-login");
     } catch (error) {
       toast.error("Logout failed. Please try again.");
@@ -25,14 +26,19 @@ const Topbar = () => {
   };
 
   return (
-    <header className="admin-topbar">
-      <div className="topbar-left">
-        <h2>Welcome, Admin ✌️</h2>
-      </div>
-      <div className="topbar-right">
-        <button className="logout-btn" onClick={handleLogout}>Logout</button>
-      </div>
-    </header>
+    <>
+      <Navbar />
+      <header className="admin-topbar">
+        <div className="topbar-left">
+          <h2>Welcome, Admin <span role="img" aria-label="peace">✌️</span></h2>
+        </div>
+        <div className="topbar-right">
+          <button className="logout-btn" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
+      </header>
+    </>
   );
 };
 

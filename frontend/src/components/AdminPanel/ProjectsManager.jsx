@@ -60,12 +60,7 @@ const ProjectManager = () => {
       const savedProject = res.data.data || res.data;
 
       setStatus(editingId ? "✅ Project updated!" : "✅ Project added!");
-      setFormData({
-        title: "",
-        description: "",
-        image: null,
-        category: "Consultation",
-      });
+      setFormData({ title: "", description: "", image: null, category: "Consultation" });
       setPreview(null);
       setEditingId(null);
 
@@ -103,9 +98,9 @@ const ProjectManager = () => {
   };
 
   return (
-    <div className="admin-section">
+    <div className="admin-section" style={{ marginLeft: "240px", padding: "24px" }}>
       <h2>{editingId ? "Edit Project" : "Add Project"}</h2>
-      <form onSubmit={handleSubmit} className="admin-form">
+      <form onSubmit={handleSubmit} className="admin-form modern-form">
         <input
           type="text"
           name="title"
@@ -113,6 +108,7 @@ const ProjectManager = () => {
           value={formData.title}
           onChange={handleChange}
           required
+          className="modern-input"
         />
         <textarea
           name="description"
@@ -121,26 +117,28 @@ const ProjectManager = () => {
           onChange={handleChange}
           rows="4"
           required
+          className="modern-textarea"
         />
         <select
           name="category"
           value={formData.category}
           onChange={handleChange}
           required
+          className="modern-select"
         >
           <option value="Consultation">Consultation</option>
           <option value="Design">Design</option>
           <option value="Marketing & Design">Marketing & Design</option>
           <option value="Consultation & Marketing">Consultation & Marketing</option>
         </select>
-        <input type="file" name="image" accept="image/*" onChange={handleChange} />
-        {preview && <img src={preview} alt="Preview" className="image-preview" />}
-        <button type="submit">{editingId ? "Update Project" : "Upload Project"}</button>
+        <input type="file" name="image" accept="image/*" onChange={handleChange} className="modern-file-input" />
+        {preview && <img src={preview} alt="Preview" className="image-preview modern-preview" />}
+        <button type="submit" className="modern-btn">{editingId ? "Update Project" : "Upload Project"}</button>
         {status && <p className="form-status">{status}</p>}
       </form>
 
       <h3>All Projects</h3>
-      <table className="admin-table">
+      <table className="admin-table modern-table">
         <thead>
           <tr>
             <th>Image</th>
@@ -153,13 +151,7 @@ const ProjectManager = () => {
         <tbody>
           {projects.map((p) => (
             <tr key={p._id}>
-              <td>
-                <img
-                  src={`${import.meta.env.VITE_Backend_URL}${p.imageUrl}`}
-                  alt={p.title}
-                  style={{ width: "90px", borderRadius: "6px", objectFit: "cover" }}
-                />
-              </td>
+              <td><img src={`${import.meta.env.VITE_Backend_URL}${p.imageUrl}`} alt={p.title} style={{ width: "90px", borderRadius: "6px", objectFit: "cover" }} /></td>
               <td>{p.title}</td>
               <td>{p.category}</td>
               <td>{p.description}</td>

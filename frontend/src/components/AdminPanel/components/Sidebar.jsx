@@ -1,10 +1,11 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
+import React from "react";
 
 const Sidebar = () => {
   return (
     <nav className="admin-sidebar">
-      <h2>Admin Panel</h2>
-      <ul>
+      <h2 className="sidebar-title">Admin Panel</h2>
+      <ul className="sidebar-menu">
         <li>
           <NavLink to="/admin/projects" className={({ isActive }) => isActive ? "active-link" : ""}>
             Projects
