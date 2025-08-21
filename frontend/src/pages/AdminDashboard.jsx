@@ -14,8 +14,9 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const backend = import.meta.env.VITE_Backend_URL;
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [authorized, setAuthorized] = useState(null);
-  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [authorized, setAuthorized] = useState(false);
+  const token = localStorage.getItem("admin-auth-token");
 
   useEffect(() => {
     if (!token) {
