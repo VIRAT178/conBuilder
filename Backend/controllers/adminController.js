@@ -51,7 +51,7 @@ export const login = async (req, res) => {
       return res.json({ success: false, message: "Invalid Credentials" });
     }
 
-    const token = genrateToken(adminData._id);
+    const token = generateToken(adminData._id);
     return res.json({
       success: true,
       message: "Logged In Successfully",
