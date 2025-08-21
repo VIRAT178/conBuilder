@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../../styles/ad.css";
-
-const baseURL = import.meta.env.VITE_Backend_URL + "/api/v1/contacts";
 
 const ContactViewer = () => {
+  const backend =
+    import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_Backend_URL;
+  const baseURL = `${backend}/api/v1/contacts`;
+  const token =
+    localStorage.getItem("admin-token") ||
+    localStorage.getItem("admin-auth-token");
+
   const [contacts, setContacts] = useState([]);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -14,7 +18,6 @@ const ContactViewer = () => {
   });
   const [editingId, setEditingId] = useState(null);
   const [status, setStatus] = useState("");
-  const token = localStorage.getItem("admin-auth-token");
 
   const axiosConfig = {
     headers: {
@@ -25,43 +28,43 @@ const ContactViewer = () => {
 
   useEffect(() => {
     axios
-      .get(baseURL)
+      .get(baseURL, axiosConfig)
       .then((res) => setContacts(res.data))
-      .catch((err) => {
-        console.error("Fetch error:", err.message);
-        setStatus("❌ Could not load contacts.");
-      });
+      .catch(() => setStatus("❌ Failed to load contacts"));
   }, []);
-
-  const handleEdit = (c) => {
-    setFormData({
-      fullName: c.fullName,
-      email: c.email,
-      mobile: c.mobile,
-      city: c.city,
-    });
-    setEditingId(c._id);
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleEdit = (contact) => {
+    setFormData({
+      fullName: contact.fullName,
+      email: contact.email,
+      mobile: contact.mobile,
+      city: contact.city,
+    });
+    setEditingId(contact._id);
+  };
+
   const handleUpdate = async (e) => {
     e.preventDefault();
     setStatus("Saving...");
     try {
-      const res = await axios.put(`${baseURL}/${editingId}`, formData, axiosConfig);
+      const res = await axios.put(
+        `${baseURL}/${editingId}`,
+        formData,
+        axiosConfig
+      );
       setContacts((prev) =>
         prev.map((c) => (c._id === editingId ? res.data.data || res.data : c))
       );
-      setFormData({ fullName: "", email: "", mobile: "", city: "" });
       setEditingId(null);
-      setStatus("✅ Contact updated!");
-    } catch (err) {
-      console.error("Update error:", err.response?.data?.error || err.message);
-      setStatus("❌ Failed to update contact.");
+      setFormData({ fullName: "", email: "", mobile: "", city: "" });
+      setStatus("✅ Contact updated");
+    } catch {
+      setStatus("❌ Failed to update contact");
     }
   };
 
@@ -69,67 +72,62 @@ const ContactViewer = () => {
     try {
       await axios.delete(`${baseURL}/${id}`, axiosConfig);
       setContacts((prev) => prev.filter((c) => c._id !== id));
-      setStatus("🗑️ Contact deleted.");
-    } catch (err) {
-      console.error("Delete error:", err.response?.data?.error || err.message);
-      setStatus("❌ Failed to delete.");
+      setStatus("🗑️ Contact deleted");
+    } catch {
+      setStatus("❌ Failed to delete contact");
     }
   };
 
   return (
     <div className="admin-section">
-      <h2>{editingId ? "Edit Contact" : "Contact Form Responses"}</h2>
-      {status && <p className="form-status">{status}</p>}
+      <h2>{editingId ? "Edit Contact" : "Contact Submissions"}</h2>
       {editingId && (
         <form onSubmit={handleUpdate} className="admin-form modern-form">
           <input
-            type="text"
             name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
             placeholder="Full Name"
             required
+            value={formData.fullName}
+            onChange={handleChange}
             className="modern-input"
           />
           <input
-            type="email"
             name="email"
-            value={formData.email}
-            onChange={handleChange}
+            type="email"
             placeholder="Email"
             required
+            value={formData.email}
+            onChange={handleChange}
             className="modern-input"
           />
           <input
-            type="text"
             name="mobile"
+            placeholder="Mobile"
+            required
             value={formData.mobile}
             onChange={handleChange}
-            placeholder="Mobile Number"
-            required
             className="modern-input"
           />
           <input
-            type="text"
             name="city"
-            value={formData.city}
-            onChange={handleChange}
             placeholder="City"
             required
+            value={formData.city}
+            onChange={handleChange}
             className="modern-input"
           />
           <button type="submit" className="modern-btn">
             Update Contact
           </button>
+          {status && <p className="form-status">{status}</p>}
         </form>
       )}
-
       <table className="admin-table modern-table">
         <thead>
           <tr>
             <th>Full Name</th>
-            <th>Email Address</th>
-            <th>Mobile Number</th>
+            <th>Email</th>
+            <th>Mobile</th>
             <th>City</th>
             <th>Actions</th>
           </tr>
@@ -142,7 +140,7 @@ const ContactViewer = () => {
               <td>{c.mobile}</td>
               <td>{c.city}</td>
               <td>
-                <button onClick={() => handleEdit(c)}>✏️ Edit</button>{" "}
+                <button onClick={() => handleEdit(c)}>✏️ Edit</button>
                 <button onClick={() => handleDelete(c._id)}>🗑️ Delete</button>
               </td>
             </tr>
@@ -154,4 +152,3 @@ const ContactViewer = () => {
 };
 
 export default ContactViewer;
-

@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 
-const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(true);
-
+const Sidebar = ({ isOpen, toggle }) => {
   return (
     <>
       <button
         className="sidebar-toggle-btn"
         aria-label="Toggle sidebar"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={toggle}
       >
         ☰
       </button>

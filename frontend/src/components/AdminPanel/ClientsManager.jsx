@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../../styles/ad.css";
-
-const baseURL = import.meta.env.VITE_Backend_URL + "/api/v1/clients";
 
 const ClientsManager = () => {
+  const backend = import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_Backend_URL;
+  const baseURL = `${backend}/api/v1/clients`;
+  const token = localStorage.getItem("admin-token") || localStorage.getItem("admin-auth-token");
+
   const [clients, setClients] = useState([]);
-  const [formData, setFormData] = useState({
-    name: "",
-    role: "",
-    testimonial: "",
-    image: null,
-  });
+  const [formData, setFormData] = useState({ name: "", role: "", testimonial: "", image: null });
   const [preview, setPreview] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [status, setStatus] = useState("");
-  const token = localStorage.getItem("admin-auth-token");
 
   const axiosConfig = {
     headers: {
@@ -25,75 +20,64 @@ const ClientsManager = () => {
   };
 
   useEffect(() => {
-    axios
-      .get(baseURL)
-      .then((res) => setClients(res.data))
-      .catch((err) => {
-        console.error("Fetch error:", err.message);
-        setStatus("❌ Could not load clients.");
-      });
+    axios.get(baseURL, axiosConfig)
+      .then(res => setClients(res.data))
+      .catch(err => setStatus("❌ Failed to load clients"));
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value, files } = e.target;
     if (name === "image") {
-      setFormData((prev) => ({ ...prev, image: files[0] }));
+      setFormData(prev => ({ ...prev, image: files[0] }));
       setPreview(URL.createObjectURL(files));
     } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+      setFormData(prev => ({ ...prev, [name]: value }));
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setStatus("Saving...");
-
-    const payload = new FormData();
-    payload.append("name", formData.name);
-    payload.append("role", formData.role);
-    payload.append("testimonial", formData.testimonial);
-    if (formData.image) payload.append("image", formData.image);
-
     try {
+      const payload = new FormData();
+      payload.append("name", formData.name);
+      payload.append("role", formData.role);
+      payload.append("testimonial", formData.testimonial);
+      if (formData.image) payload.append("image", formData.image);
+
       const url = editingId ? `${baseURL}/${editingId}` : baseURL;
       const method = editingId ? "put" : "post";
+
       const res = await axios[method](url, payload, axiosConfig);
+      const savedClient = editingId ? res.data.data : res.data;
 
-      const savedClient = editingId ? res.data.data : res.data.data || res.data;
-
-      setClients((prev) =>
-        editingId ? prev.map((c) => (c._id === editingId ? savedClient : c)) : [...prev, savedClient]
+      setClients(prev => editingId 
+        ? prev.map(c => c._id === editingId ? savedClient : c)
+        : [...prev, savedClient]
       );
 
       setFormData({ name: "", role: "", testimonial: "", image: null });
       setPreview(null);
       setEditingId(null);
-      setStatus(editingId ? "✅ Client updated!" : "✅ Client added!");
+      setStatus(`✅ ${editingId ? "Updated" : "Added"} successfully!`);
     } catch (err) {
-      console.error("Submit error:", err.response?.data?.error || err.message);
-      setStatus("❌ Failed to save client.");
+      setStatus("❌ Failed to save client");
     }
   };
 
-  const handleEdit = (client) => {
-    setFormData({
-      name: client.name,
-      role: client.role,
-      testimonial: client.testimonial,
-      image: null,
-    });
-    setPreview(import.meta.env.VITE_Backend_URL + client.imageUrl);
+  const handleEdit = client => {
+    setFormData({ name: client.name, role: client.role, testimonial: client.testimonial, image: null });
+    setPreview(`${backend}${client.imageUrl}`);
     setEditingId(client._id);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async id => {
     try {
       await axios.delete(`${baseURL}/${id}`, axiosConfig);
-      setClients((prev) => prev.filter((c) => c._id !== id));
-      setStatus("🗑️ Client deleted.");
-    } catch (err) {
-      console.error("Delete error:", err.response?.data?.error || err.message);
-      setStatus("❌ Failed to delete.");
+      setClients(prev => prev.filter(c => c._id !== id));
+      setStatus("🗑️ Deleted successfully");
+    } catch {
+      setStatus("❌ Failed to delete client");
     }
   };
 
@@ -101,67 +85,45 @@ const ClientsManager = () => {
     <div className="admin-section">
       <h2>{editingId ? "Edit Client" : "Add Client"}</h2>
       <form onSubmit={handleSubmit} className="admin-form modern-form">
-        <input
-          type="text"
-          name="name"
-          placeholder="Client Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          className="modern-input"
+        <input 
+          name="name" placeholder="Client Name" required 
+          value={formData.name} onChange={handleChange} className="modern-input" 
         />
-        <input
-          type="text"
-          name="role"
-          placeholder="Client Role"
-          value={formData.role}
-          onChange={handleChange}
-          required
-          className="modern-input"
+        <input 
+          name="role" placeholder="Client Role" required 
+          value={formData.role} onChange={handleChange} className="modern-input" 
         />
-        <textarea
-          name="testimonial"
-          placeholder="Testimonial"
-          value={formData.testimonial}
-          onChange={handleChange}
-          rows="3"
-          className="modern-textarea"
+        <textarea 
+          name="testimonial" placeholder="Testimonial" rows={3} 
+          value={formData.testimonial} onChange={handleChange} className="modern-textarea" 
         />
-        <input type="file" name="image" accept="image/*" onChange={handleChange} className="modern-file-input" />
+        <input 
+          type="file" name="image" accept="image/*" onChange={handleChange} 
+          className="modern-file-input" 
+        />
         {preview && <img src={preview} alt="Preview" className="image-preview modern-preview" />}
         <button type="submit" className="modern-btn">
           {editingId ? "Update Client" : "Upload Client"}
         </button>
         {status && <p className="form-status">{status}</p>}
       </form>
-
-      <h3>All Clients</h3>
+      <h3>Clients</h3>
       <table className="admin-table modern-table">
         <thead>
           <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Testimonial</th>
-            <th>Actions</th>
+            <th>Image</th><th>Name</th><th>Role</th><th>Testimonial</th><th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {clients.map((c) => (
-            <tr key={c._id}>
+          {clients.map(client => (
+            <tr key={client._id}>
+              <td><img src={`${backend}${client.imageUrl}`} alt={client.name} style={{ width: 80, borderRadius: "50%" }}/></td>
+              <td>{client.name}</td>
+              <td>{client.role}</td>
+              <td>{client.testimonial}</td>
               <td>
-                <img
-                  src={`${import.meta.env.VITE_Backend_URL}${c.imageUrl}`}
-                  alt={c.name}
-                  style={{ width: "80px", borderRadius: "50%", objectFit: "cover" }}
-                />
-              </td>
-              <td>{c.name}</td>
-              <td>{c.role}</td>
-              <td>{c.testimonial}</td>
-              <td>
-                <button onClick={() => handleEdit(c)}>✏️ Edit</button>{" "}
-                <button onClick={() => handleDelete(c._id)}>🗑️ Delete</button>
+                <button onClick={() => handleEdit(client)}>✏️ Edit</button>
+                <button onClick={() => handleDelete(client._id)}>🗑️ Delete</button>
               </td>
             </tr>
           ))}

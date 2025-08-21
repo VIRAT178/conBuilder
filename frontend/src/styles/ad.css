@@ -1,4 +1,14 @@
 
+body, .admin-section, .main-content {
+  background-color: #1f2937;
+  color: #d1d5db;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .admin-topbar {
   position: fixed;
   top: 0;
@@ -11,7 +21,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   font-weight: 600;
   font-size: 1.25rem;
   z-index: 1100;
@@ -31,6 +41,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.15s ease;
+  user-select: none;
 }
 
 .topbar-right .logout-btn:hover,
@@ -40,9 +51,7 @@
   outline: none;
 }
 
-
-.admin-section,
-.main-content {
+.admin-section, .main-content {
   padding-top: 60px; 
 }
 
@@ -50,16 +59,16 @@
   width: 220px;
   background-color: #1b2430;
   height: calc(100vh - 60px);
-  padding: 20px 16px;
   position: fixed;
   top: 60px; 
   left: 0;
   color: #17cf97;
-  box-shadow: inset -3px 0 8px rgba(0, 0, 0, 0.2);
+  box-shadow: inset -3px 0 8px rgba(0,0,0,0.2);
   font-weight: 600;
   display: flex;
   flex-direction: column;
   z-index: 90;
+  transform: translateX(0);
   transition: transform 0.3s ease;
 }
 
@@ -95,6 +104,7 @@
   border-radius: 6px;
   display: block;
   transition: background-color 0.3s ease, color 0.3s ease;
+  user-select: none;
 }
 
 .sidebar-menu li a:hover,
@@ -104,10 +114,9 @@
   font-weight: 700;
 }
 
-
 .sidebar-toggle-btn {
   position: fixed;
-  top: 15px; 
+  top: 15px;
   left: 16px;
   background-color: #17cf97;
   border: none;
@@ -129,264 +138,249 @@
 }
 
 .main-content {
-  margin-left: 220px; 
-  padding: 24px;
+  margin-left: 220px;
   transition: margin-left 0.3s ease;
+  padding: 24px;
 }
 
-.admin-form,
-.modern-form {
-  background: #293541;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(23, 207, 151, 0.3);
+@media(max-width: 1024px) {
+  .main-content {
+    margin-left: 0 !important;
+    padding: 1rem 1.5rem 1.5rem;
+  }
+
+  .sidebar-toggle-btn {
+    display: block;
+  }
+
+  .admin-sidebar {
+    transform: translateX(-100%);
+    z-index: 1500;
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+.admin-form, .modern-form {
+  background: #293348;
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
   max-width: 600px;
-  margin-bottom: 40px;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 8px 32px rgba(23, 207, 151, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.admin-form:hover,
-.modern-form:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(23, 207, 151, 0.5);
+.admin-form:hover, .modern-form:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 60px rgba(23, 207, 151, 0.5);
 }
 
 .modern-input,
 .modern-textarea,
-.modern-file-input,
-.modern-select {
+.modern-select,
+.modern-file-input {
   width: 100%;
-  padding: 14px 18px;
-  margin-bottom: 22px;
-  border-radius: 8px;
-  border: none;
+  padding: 1rem 1.25rem;
   font-size: 1rem;
-  color: #f0f6f9;
-  background-color: #3d5166;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 14px;
+  border: none;
+  color: #f0f5f9;
+  background-color: #3c4c69;
+  margin-bottom: 1.5rem;
   outline: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: inherit;
 }
 
 .modern-input::placeholder,
 .modern-textarea::placeholder {
-  color: #a0b0c0;
+  color: #a7b1c3;
 }
 
 .modern-input:focus,
 .modern-textarea:focus,
-.modern-file-input:focus,
 .modern-select:focus {
-  background-color: #2a3b50;
-  box-shadow: 0 0 8px #17cf97;
+  background-color: #2c3d60;
+  box-shadow: 0 0 14px #11b780;
 }
 
 .modern-textarea {
   resize: vertical;
   min-height: 80px;
-  font-family: inherit;
+}
+
+.modern-select {
+  cursor: pointer;
+}
+
+.modern-file-input {
+  cursor: pointer;
 }
 
 .modern-btn {
-  background-color: #17cf97;
-  border: none;
-  padding: 14px 40px;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 1.1rem;
-  cursor: pointer;
-  color: #1b2430;
-  transition: background-color 0.25s ease, transform 0.15s ease,
-    box-shadow 0.25s ease;
   display: inline-block;
-  box-shadow: 0 5px 12px rgba(23, 207, 151, 0.6);
+  background: linear-gradient(135deg, #11b77c, #13c094);
+  color: #0f172a;
+  border: none;
+  padding: 1rem 3rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 8px 28px rgba(23, 207, 151, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
 }
 
-.modern-btn:hover,
-.modern-btn:focus {
-  background-color: #13b77f;
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(23, 207, 151, 0.9);
+.modern-btn:hover, .modern-btn:focus {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 15px 50px rgba(23, 207, 151, 0.7);
   outline: none;
 }
 
-.image-preview,
-.image-preview.modern-preview {
-  border-radius: 12px;
-  object-fit: contain;
-  margin-bottom: 20px;
-  max-width: 150px;
-  max-height: 150px;
-  box-shadow: 0 0 10px #17cf97;
+.image-preview, .modern-preview {
+  max-width: 180px;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 28px #11b77c;
   transition: transform 0.3s ease;
+  object-fit: contain;
 }
 
-.image-preview:hover {
-  transform: scale(1.05);
+.image-preview:hover, .modern-preview:hover {
+  transform: scale(1.1);
 }
 
 .form-status {
   font-weight: 600;
-  margin-top: 8px;
-  font-size: 1rem;
-  color: #f77373;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+  color: #f87171;
   user-select: none;
 }
 
-.admin-table,
-.admin-table.modern-table {
+.admin-table, .modern-table {
   width: 100%;
   border-collapse: collapse;
-  background: #293541;
-  border-radius: 12px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 6px 20px rgba(23, 207, 151, 0.3);
+  background: #29324b;
+  box-shadow: 0 10px 40px rgba(23, 207, 151, 0.3);
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
 }
 
-.admin-table th,
-.admin-table td {
-  padding: 14px 20px;
+.admin-table th, .modern-table th,
+.admin-table td, .modern-table td {
+  padding: 1rem 1.25rem;
   text-align: left;
-  color: #e0e6ed;
+  color: #cad6e8;
+  border-bottom: 1px solid #3d4a70;
   font-weight: 500;
   font-size: 1rem;
-  border-bottom: 1px solid #3d5166;
 }
 
-.admin-table th {
-  background-color: #1b2430;
-  letter-spacing: 1px;
+.admin-table th, .modern-table th {
+  background-color: #1f293e;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.admin-table tbody tr:hover {
-  background-color: #17cf97;
-  color: #1b2430;
+.admin-table tbody tr:hover, .modern-table tbody tr:hover {
+  background: linear-gradient(90deg, #13bc92, #11b77c);
+  color: #0f172a;
   cursor: pointer;
-  transition: background-color 0.25s ease;
+  transition: background 0.3s ease;
 }
 
-.admin-table button {
-  background-color: #17cf97;
+.admin-table button, .modern-table button {
+  background-color: #11b77c;
   border: none;
-  border-radius: 6px;
-  padding: 6px 12px;
-  margin: 0 4px;
+  border-radius: 12px;
+  padding: 0.6rem 1rem;
+  margin: 0 0.4rem;
   font-weight: 600;
   cursor: pointer;
-  color: #1b2430;
-  transition: background-color 0.25s ease, transform 0.15s ease;
+  transition: all 0.3s ease;
+  color: #0f172a;
+  user-select: none;
 }
 
-.admin-table button:hover {
-  background-color: #13b77f;
+.admin-table button:hover, .modern-table button:hover {
+  background-color: #0e9b67;
   transform: scale(1.1);
 }
 
-.admin-table tbody {
-  max-height: 400px;
-  overflow-y: auto;
+.admin-table tbody, .modern-table tbody {
   display: block;
+  max-height: 360px;
+  overflow-y: auto;
 }
 
-.admin-table thead,
-.admin-table tbody tr {
+.admin-table thead, .modern-table thead,
+.admin-table tbody tr, .modern-table tbody tr {
   display: table;
   width: 100%;
   table-layout: fixed;
 }
 
 @media (max-width: 1024px) {
-  .admin-section,
-  .main-content {
-    margin-left: 0;
-    padding: 16px;
-    padding-top: 120px; 
+  .admin-section, .main-content {
+    margin-left: 0 !important;
+    padding: 1.5rem 1rem;
+  }
+
+  .sidebar-toggle-btn {
+    display: block !important;
   }
 
   .admin-sidebar {
-    position: fixed;
-    top: 60px;
-    left: -260px;
-    width: 220px;
-    height: calc(100vh - 60px);
-    transition: left 0.3s ease;
-    z-index: 2000;
+    transform: translateX(-100%);
+    z-index: 1500;
   }
 
   .admin-sidebar.open {
-    left: 0 !important;
+    transform: translateX(0);
   }
 
-  .sidebar-toggle-btn {
-    position: fixed;
-    top: 15px;
-    left: 16px;
-    background-color: #17cf97;
-    border: none;
-    padding: 10px 14px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 2200;
-    font-size: 1.25rem;
-    color: #1b2430;
-    box-shadow: 0 4px 10px rgba(23, 207, 151, 0.7);
-    user-select: none;
-    transition: background-color 0.3s ease;
-  }
-
-  .sidebar-toggle-btn:hover,
-  .sidebar-toggle-btn:focus {
-    background-color: #13b77f;
-    outline: none;
-  }
-
-  .admin-form,
-  .modern-form {
+  .admin-form, .modern-form {
     width: 100% !important;
-    padding: 20px !important;
-  }
-
-  .modern-input,
-  .modern-textarea,
-  .modern-select,
-  .modern-file-input {
-    font-size: 1.1rem;
-  }
-
-  .admin-table,
-  .admin-table.modern-table {
-    display: block;
-    overflow-x: auto;
-    width: 100%;
-  }
-
-  .admin-table thead,
-  .admin-table tbody,
-  .admin-table tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-  }
-
-  .modern-btn,
-  .admin-table button {
-    padding: 14px 24px;
-    font-size: 1.15rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .admin-topbar {
-    font-size: 1rem;
-    padding: 0 12px;
-  }
-
-  .sidebar-toggle-btn {
-    top: 12px;
-    left: 12px;
-    padding: 8px 12px;
+    padding: 1.5rem !important;
   }
 
   .modern-btn {
-    width: 100%;
+    width: 100% !important;
+    font-size: 1.1rem;
+  }
+
+  .admin-table, .modern-table {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-topbar {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  .sidebar-toggle-btn {
+    top: 15px;
+    left: 10px;
+    padding: 8px 12px;
+    font-size: 1.5rem;
+  }
+
+  .image-preview, .modern-preview {
+    max-width: 140px;
+  }
+
+  .admin-table th, .modern-table th,
+  .admin-table td, .modern-table td {
+    padding: 0.75rem 0.8rem;
+    font-size: 0.9rem;
   }
 }
