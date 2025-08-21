@@ -1,11 +1,16 @@
 body {
   background: #1f2937;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
+  color: #e4faf9;
+  margin: 0;
+  padding: 0;
 }
 
 .admin-topbar {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 60px;
   background: #1b2430;
   color: #17cf97;
@@ -14,7 +19,7 @@ body {
   justify-content: space-between;
   padding: 0 32px;
   z-index: 1000;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.22);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.22);
 }
 
 .admin-sidebar {
@@ -41,13 +46,18 @@ body {
     left: 0;
     z-index: 1500;
   }
-  .admin-sidebar.open { transform: translateX(0); }
-  .dashboard-content { margin-left: 0 !important; }
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+  .dashboard-content {
+    margin-left: 0 !important;
+  }
 }
 @media (min-width: 1025px) {
-  .dashboard-content { margin-left: 220px; }
+  .dashboard-content {
+    margin-left: 220px;
+  }
 }
-
 
 .sidebar-title {
   font-size: 1.5rem;
@@ -56,6 +66,7 @@ body {
   padding: 0 36px 14px;
   margin-bottom: 10px;
 }
+
 .sidebar-menu {
   width: 100%;
   list-style: none;
@@ -75,7 +86,7 @@ body {
   margin-bottom: 5px;
   transition: all 0.25s;
 }
-.sidebar-menu li a.active-link, 
+.sidebar-menu li a.active-link,
 .sidebar-menu li a:hover {
   background: linear-gradient(90deg, #17cf97 60%, transparent 100%);
   color: #0a1526;
@@ -83,27 +94,46 @@ body {
 }
 
 .dashboard-content {
-  padding: 90px 5vw 30px 5vw; 
+  padding: 90px 5vw 30px 5vw;
   max-width: 800px;
   margin: 0 auto;
 }
 
-.admin-form, .modern-form {
+.admin-form,
+.modern-form {
   background: #232e43;
   border-radius: 22px;
   padding: 2.4rem 2rem 1.7rem;
   max-width: 640px;
   margin: 24px auto;
   box-shadow: 0 3px 30px #17cf972a, 0 0 0 2.5px #11b780 inset;
-  border:none;
-  animation: fadeInCard 0.6s cubic-bezier(.68,-0.55,.27,1.55);
+  border: none;
+  animation: fadeInCard 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 @keyframes fadeInCard {
-  from { opacity: 0; transform: scale(0.98) translateY(26px);}
-  to   { opacity: 1; transform: scale(1) translateY(0);}
+  from {
+    opacity: 0;
+    transform: scale(0.98) translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
-.modern-input, .modern-textarea, .modern-select, .modern-file-input {
+.modern-label {
+  display: block;
+  margin-bottom: 7px;
+  color: #b2f6ec;
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.modern-input,
+.modern-textarea,
+.modern-select,
+.modern-file-input {
   width: 100%;
   padding: 1.15rem 1.28rem;
   background: #2b3850;
@@ -114,17 +144,23 @@ body {
   font-size: 1.08rem;
   font-family: inherit;
   transition: box-shadow 0.24s, background 0.25s;
+  resize: vertical;
 }
-.modern-input:focus, .modern-textarea:focus, .modern-select:focus {
+.modern-input:focus,
+.modern-textarea:focus,
+.modern-select:focus {
   background: #232f49;
   outline: none;
   box-shadow: 0 0 0 2.5px #17cf97, 0 0 13px #11b780aa;
 }
-.modern-textarea { min-height: 73px; }
+.modern-textarea {
+  min-height: 73px;
+}
 
-
-.modern-btn, .logout-btn, .sidebar-toggle-btn {
-  background: linear-gradient(90deg,#17cf97,#11b780 85%);
+.modern-btn,
+.logout-btn,
+.sidebar-toggle-btn {
+  background: linear-gradient(90deg, #17cf97, #11b780 85%);
   color: #1a232e;
   padding: 15px 35px;
   font-weight: bold;
@@ -135,13 +171,16 @@ body {
   transition: box-shadow 0.2s, background 0.2s, transform 0.18s;
   box-shadow: 0 3px 12px #17cf975c;
 }
-.modern-btn:hover, .logout-btn:hover, .sidebar-toggle-btn:hover {
-  background: linear-gradient(90deg,#13b77f,#17cf97 80%);
+.modern-btn:hover,
+.logout-btn:hover,
+.sidebar-toggle-btn:hover {
+  background: linear-gradient(90deg, #13b77f, #17cf97 80%);
   transform: translateY(-2px) scale(1.045);
   box-shadow: 0 8px 26px #17cf97bb;
 }
 
-.image-preview, .modern-preview {
+.image-preview,
+.modern-preview {
   border-radius: 12px;
   object-fit: contain;
   margin-bottom: 18px;
@@ -151,7 +190,8 @@ body {
   display: block;
 }
 
-.admin-table, .modern-table {
+.admin-table,
+.modern-table {
   width: 100%;
   background: #2b3850;
   border-radius: 17px;
@@ -160,26 +200,33 @@ body {
   border-spacing: 0;
   margin-top: 12px;
 }
-.admin-table th, .modern-table th, .admin-table td, .modern-table td {
+.admin-table th,
+.modern-table th,
+.admin-table td,
+.modern-table td {
   padding: 1rem 1.1rem;
   border-bottom: 1px solid #26324b;
   color: #e4faf9;
   font-size: 1.03rem;
 }
-.admin-table th, .modern-table th {
+.admin-table th,
+.modern-table th {
   background: #212e41;
   font-weight: 700;
   letter-spacing: 0.035em;
 }
-.admin-table tr:last-child td, .modern-table tr:last-child td {
+.admin-table tr:last-child td,
+.modern-table tr:last-child td {
   border-bottom: none;
 }
-.admin-table tbody tr:hover, .modern-table tbody tr:hover {
-  background: linear-gradient(90deg,#13bc92 30%,#152032 95%);
+.admin-table tbody tr:hover,
+.modern-table tbody tr:hover {
+  background: linear-gradient(90deg, #13bc92 30%, #152032 95%);
   color: #172142 !important;
 }
 
-.admin-table button, .modern-table button {
+.admin-table button,
+.modern-table button {
   background-color: #11b781;
   border: none;
   border-radius: 8px;
@@ -191,9 +238,14 @@ body {
   box-shadow: 0 2px 10px #21fdc592;
   transition: background 0.22s, transform 0.18s;
 }
-.admin-table button:hover, .modern-table button:hover {
+.admin-table button:hover,
+.modern-table button:hover {
   background: #17cf97;
   transform: scale(1.08);
+}
+.modern-action-btn.danger {
+  background: #fd6779 !important;
+  color: #fff !important;
 }
 
 .form-status {
@@ -205,13 +257,34 @@ body {
 }
 
 @media (max-width: 900px) {
-  .admin-section, .dashboard-content, .main-content { padding: 85px 4vw 28px 4vw; }
-  .admin-form, .modern-form { padding: 1.3rem 1.1rem; }
+  .admin-section,
+  .dashboard-content,
+  .main-content {
+    padding: 85px 4vw 28px 4vw;
+  }
+  .admin-form,
+  .modern-form {
+    padding: 1.3rem 1.1rem;
+  }
 }
 @media (max-width: 700px) {
-  .admin-section, .dashboard-content, .main-content { padding: 80px 0.3rem 19px 0.3rem; }
-  .admin-form, .modern-form { padding: 15px 6px; }
-  .main-content { margin-left: 0 !important; }
-  .sidebar-toggle-btn { top: 13px; left: 10px; }
-  .sidebar-title { padding-left: 17px; }
+  .admin-section,
+  .dashboard-content,
+  .main-content {
+    padding: 80px 0.3rem 19px 0.3rem;
+  }
+  .admin-form,
+  .modern-form {
+    padding: 15px 6px;
+  }
+  .main-content {
+    margin-left: 0 !important;
+  }
+  .sidebar-toggle-btn {
+    top: 13px;
+    left: 10px;
+  }
+  .sidebar-title {
+    padding-left: 17px;
+  }
 }

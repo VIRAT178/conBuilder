@@ -103,25 +103,30 @@ const ProjectManager = () => {
 
   return (
     <div className="admin-section">
-      <h2>{editingId ? "Edit Project" : "Add Project"}</h2>
+      <h2 className="section-title">
+        {editingId ? "Edit Project" : "Add Project"}
+      </h2>
       <form onSubmit={handleSubmit} className="admin-form modern-form">
+        <label className="modern-label">Project Title</label>
         <input
           name="title"
-          placeholder="Project Title"
+          placeholder="Enter project title"
           required
           value={formData.title}
           onChange={handleChange}
           className="modern-input"
         />
+        <label className="modern-label">Project Description</label>
         <textarea
           name="description"
-          placeholder="Project Description"
+          placeholder="Description"
           rows={4}
           required
           value={formData.description}
           onChange={handleChange}
           className="modern-textarea"
         />
+        <label className="modern-label">Category</label>
         <select
           name="category"
           required
@@ -134,6 +139,7 @@ const ProjectManager = () => {
           <option>Marketing & Design</option>
           <option>Consultation & Marketing</option>
         </select>
+        <label className="modern-label">Image</label>
         <input
           type="file"
           name="image"
@@ -178,8 +184,16 @@ const ProjectManager = () => {
               <td>{project.category}</td>
               <td>{project.description}</td>
               <td>
-                <button onClick={() => handleEdit(project)}>✏️ Edit</button>
-                <button onClick={() => handleDelete(project._id)}>
+                <button
+                  className="modern-action-btn"
+                  onClick={() => handleEdit(project)}
+                >
+                  ✏️ Edit
+                </button>
+                <button
+                  className="modern-action-btn danger"
+                  onClick={() => handleDelete(project._id)}
+                >
                   🗑️ Delete
                 </button>
               </td>
