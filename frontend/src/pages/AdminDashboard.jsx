@@ -12,12 +12,10 @@ import NewsletterViewer from "../components/AdminPanel/SubscribersList";
 
 const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [authorized, setAuthorized] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [authorized, setAuthorized] = useState(null);
   const navigate = useNavigate();
   const backend = import.meta.env.VITE_BACKEND_URL;
-
-  const [token] = useState(() => localStorage.getItem("admin-auth-token"));
+  const token = localStorage.getItem("admin-auth-token");
 
   const toggleSidebar = () => {
     setSidebarOpen(prev => !prev);
@@ -27,7 +25,6 @@ const AdminDashboard = () => {
     if (!token) {
       toast.error("Session expired. Please login.");
       navigate("/admin-login", { replace: true });
-      setLoading(false);
       return;
     }
 
@@ -48,13 +45,10 @@ const AdminDashboard = () => {
         setAuthorized(false);
         toast.error("Session expired. Please login.");
         navigate("/admin-login", { replace: true });
-      })
-      .finally(() => {
-        setLoading(false);
       });
-  }, [token, backend, navigate]);
+  }, [navigate, token, backend]);
 
-  if (loading) return <div>Loading Dashboard...</div>;
+  if (authorized === null) return <div>Loading Dashboard...</div>;
   if (!authorized) return <Navigate to="/admin-login" replace />;
 
   return (
@@ -69,7 +63,7 @@ const AdminDashboard = () => {
           paddingTop: 80,
           paddingLeft: 24,
           paddingRight: 24,
-          minHeight: "calc(100vh - 80px)",
+          minHeight: "calc(100vh - 80px)"
         }}
       >
         <Routes>
