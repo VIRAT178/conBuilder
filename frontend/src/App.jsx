@@ -7,6 +7,7 @@ import AdminLogin from "../src/pages/AdminLogin";
 import AdminSignup from "../src/pages/AdminSignUp.jsx";
 import AdminDashboard from "../src/pages/AdminDashboard.jsx";
 import "./styles/main.css";
+import './styles/ad.css'
 import ProtectedRoute from "./ProtectedRoute.jsx";
 
 function App() {
