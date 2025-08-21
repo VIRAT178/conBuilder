@@ -8,7 +8,7 @@ import Topbar from "../components/AdminPanel/components/Topbar";
 import ProjectManager from "../components/AdminPanel/ProjectsManager";
 import ClientsManager from "../components/AdminPanel/ClientsManager";
 import ContactViewer from "../components/AdminPanel/ContactViewer";
-import NewsletterViewer from "../components/AdminPanel/NewsletterViewer";
+import NewsletterViewer from "../components/AdminPanel/SubscribersList";
 
 const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
