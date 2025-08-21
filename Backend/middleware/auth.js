@@ -15,7 +15,8 @@ export const protectRoute = async (req, res, next) => {
     req.admin = admin;
     next();
   } catch (error) {
-    console.log(error.message);
+    console.log("Token Verify Error:", error.message, error);
     res.status(401).json({ success: false, message: "Invalid or expired token" });
   }
 };
+
