@@ -17,10 +17,6 @@ const AdminDashboard = () => {
   const [authorized, setAuthorized] = useState(null);
   const [token, setToken] = useState(null);
 
-  const [loading, setLoading] = useState(true);
-  const [authorized, setAuthorized] = useState(false);
-  const token = localStorage.getItem("admin-auth-token");
-
   useEffect(() => {
     if (!token) {
       setAuthorized(false);
