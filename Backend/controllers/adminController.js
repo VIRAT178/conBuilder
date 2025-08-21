@@ -1,4 +1,4 @@
-import { genrateToken } from "../config/utils.js";
+import { generateToken } from "../config/utils.js";
 import Admin from "../models/Admin.js";
 import bcrypt from "bcryptjs";
 
@@ -24,7 +24,7 @@ export const SignUp = async (req, res) => {
       password: hasedPassword,
     });
 
-    const token = genrateToken(newAdmin._id);
+    const token = generateToken(newAdmin._id);
     res.json({
       success: true,
       message: "Now you are Admin",
