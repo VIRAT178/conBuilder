@@ -11,25 +11,20 @@ import ContactViewer from "../components/AdminPanel/ContactViewer";
 import NewsletterViewer from "../components/AdminPanel/SubscribersList";
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
+  const backend = import.meta.env.VITE_Backend_URL;
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [authorized, setAuthorized] = useState(null);
   const [token, setToken] = useState(null);
-  const navigate = useNavigate();
-  const backend = import.meta.env.VITE_Backend_URL;
 
-  useEffect(() => {
-    const savedToken = localStorage.getItem("admin-auth-token");
-    setToken(savedToken);
-  }, []);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(prev => !prev);
-  };
+  const [loading, setLoading] = useState(true);
+  const [authorized, setAuthorized] = useState(false);
+  const token = localStorage.getItem("admin-auth-token");
 
   useEffect(() => {
     if (!token) {
-      toast.error("Session expired. Please login.");
-      navigate("/admin-login", { replace: true });
+      setAuthorized(false);
+      setLoading(false);
       return;
     }
 
@@ -43,17 +38,18 @@ const AdminDashboard = () => {
         } else {
           setAuthorized(false);
           toast.error("Session expired. Please login.");
-          navigate("/admin-login", { replace: true });
         }
       })
       .catch(() => {
         setAuthorized(false);
         toast.error("Session expired. Please login.");
-        navigate("/admin-login", { replace: true });
+      })
+      .finally(() => {
+        setLoading(false);
       });
-  }, [navigate, token, backend]);
+  }, [backend, token]);
 
-  if (authorized === null) return <div>Loading Dashboard...</div>;
+  if (loading) return <div>Loading Dashboard...</div>;
   if (!authorized) return <Navigate to="/admin-login" replace />;
 
   return (
