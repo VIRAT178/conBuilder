@@ -14,7 +14,6 @@ import authRoutes from './routes/authRoutes.js';
 
 const app = express();
 
-import cors from 'cors';
 
 const allowedOrigins = [
   'https://con-builder.vercel.app'

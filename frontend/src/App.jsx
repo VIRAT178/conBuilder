@@ -12,11 +12,22 @@ import ProtectedRoute from './ProtectedRoute.jsx';
 function App() {
   return (
     <>
+      <ToastContainer 
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-signup" element={<AdminSignup />} />
-
         <Route
           path="/admin/*"
           element={
@@ -29,4 +40,5 @@ function App() {
     </>
   );
 }
+
 export default App;
