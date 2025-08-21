@@ -14,12 +14,16 @@ const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [authorized, setAuthorized] = useState(null);
   const navigate = useNavigate();
-  const backend = import.meta.env.VITE_Backend_URL;
+  const backend = import.meta.env.VITE_BACKEND_URL;
   const token = localStorage.getItem("admin-auth-token");
+
+  const toggleSidebar = () => {
+    setSidebarOpen(prev => !prev);
+  };
 
   useEffect(() => {
     if (!token) {
-      toast.error("Session expired. Please login again.");
+      toast.error("Session expired. Please login.");
       navigate("/admin-login", { replace: true });
       return;
     }
@@ -33,13 +37,13 @@ const AdminDashboard = () => {
           setAuthorized(true);
         } else {
           setAuthorized(false);
-          toast.error("Session expired. Please login again.");
+          toast.error("Session expired. Please login.");
           navigate("/admin-login", { replace: true });
         }
       })
       .catch(() => {
         setAuthorized(false);
-        toast.error("Session expired. Please login again.");
+        toast.error("Session expired. Please login.");
         navigate("/admin-login", { replace: true });
       });
   }, [navigate, token, backend]);
@@ -48,11 +52,20 @@ const AdminDashboard = () => {
   if (!authorized) return <Navigate to="/admin-login" replace />;
 
   return (
-   
     <div>
       <Topbar />
       <Sidebar isOpen={sidebarOpen} toggle={toggleSidebar} />
-      <div className="dashboard-content">
+      <div
+        className="dashboard-content"
+        style={{
+          marginLeft: sidebarOpen ? 220 : 0,
+          transition: "margin-left 0.3s ease",
+          paddingTop: 80,
+          paddingLeft: 24,
+          paddingRight: 24,
+          minHeight: "calc(100vh - 80px)"
+        }}
+      >
         <Routes>
           <Route index element={<Navigate to="projects" />} />
           <Route path="projects" element={<ProjectManager />} />
