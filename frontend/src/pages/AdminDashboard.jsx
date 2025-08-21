@@ -13,9 +13,14 @@ import NewsletterViewer from "../components/AdminPanel/SubscribersList";
 const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [authorized, setAuthorized] = useState(null);
+  const [token, setToken] = useState(null);
   const navigate = useNavigate();
-  const backend = import.meta.env.VITE_BACKEND_URL;
-  const token = localStorage.getItem("admin-auth-token");
+  const backend = import.meta.env.VITE_Backend_URL;
+
+  useEffect(() => {
+    const savedToken = localStorage.getItem("admin-auth-token");
+    setToken(savedToken);
+  }, []);
 
   const toggleSidebar = () => {
     setSidebarOpen(prev => !prev);
@@ -63,7 +68,7 @@ const AdminDashboard = () => {
           paddingTop: 80,
           paddingLeft: 24,
           paddingRight: 24,
-          minHeight: "calc(100vh - 80px)"
+          minHeight: "calc(100vh - 80px)",
         }}
       >
         <Routes>
