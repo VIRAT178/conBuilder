@@ -149,6 +149,7 @@ const ClientsManager = () => {
         {status && <p className="form-status">{status}</p>}
       </form>
       <h3>Clients</h3>
+      <div className="clients-table-wrapper">
       <table className="admin-table modern-table">
         <thead>
           <tr>
@@ -190,6 +191,7 @@ const ClientsManager = () => {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };

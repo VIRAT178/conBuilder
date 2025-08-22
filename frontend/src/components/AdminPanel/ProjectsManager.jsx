@@ -160,6 +160,7 @@ const ProjectManager = () => {
         {status && <p className="form-status">{status}</p>}
       </form>
       <h3>Projects</h3>
+      <div className="projects-table-wrapper">
       <table className="admin-table modern-table">
         <thead>
           <tr>
@@ -201,6 +202,7 @@ const ProjectManager = () => {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };

@@ -140,8 +140,8 @@ const ContactViewer = () => {
               <td>{c.mobile}</td>
               <td>{c.city}</td>
               <td>
-                <button onClick={() => handleEdit(c)}>✏️ Edit</button>
-                <button onClick={() => handleDelete(c._id)}>🗑️ Delete</button>
+                <button className="modern-action-btn" onClick={() => handleEdit(c)}>✏️ Edit</button>
+                <button className="modern-action-btn danger" onClick={() => handleDelete(c._id)}>🗑️ Delete</button>
               </td>
             </tr>
           ))}

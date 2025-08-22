@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";  // Import Link
 import "../../styles/main.css";
 
 const Navbar = () => {
@@ -10,7 +10,12 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <h1 className="navbar-brand">conBuilder</h1>
+        <h1 className="navbar-brand">
+          <Link to="/" onClick={() => setMenuOpen(false)} style={{ color: 'inherit', textDecoration: 'none' }}>
+            conBuilder
+          </Link>
+        </h1>
+
         <div
           className={`hamburger ${menuOpen ? "active" : ""}`}
           onClick={() => setMenuOpen(!menuOpen)}
@@ -19,6 +24,7 @@ const Navbar = () => {
           <span></span>
           <span></span>
         </div>
+
         <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
           {navItems.map((item, index) => (
             <li key={index}>

@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import "../styles/main.css";
+import Navbar from "../components/LandingPage/Navbar";
 
 export default function AdminLogin() {
   const backend = import.meta.env.VITE_Backend_URL;
@@ -36,6 +37,8 @@ export default function AdminLogin() {
   }
 
   return (
+    <>
+    <Navbar/>
     <div className="login-overlay">
       <div className="login-modal sleek">
         <h2 className="login-title">Welcome Back 👋</h2>
@@ -77,5 +80,6 @@ export default function AdminLogin() {
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -362,6 +362,10 @@ html {
   .why-cards {
     gap: 1.6rem;
   }
+  .hero-button{
+    font-weight: 200;
+    font-size: xx-small;
+  }
 }
 
 .projects-section {

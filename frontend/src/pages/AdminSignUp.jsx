@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import "../styles/main.css";
+import Navbar from "../components/LandingPage/Navbar";
 
 export default function AdminSignup() {
   const backend = import.meta.env.VITE_Backend_URL;
@@ -37,6 +38,8 @@ async function handleSubmit(e) {
 }
 
   return (
+    <>
+    <Navbar/>
     <div className="login-overlay">
       <div className="login-modal sleek">
         <h2 className="login-title">Create Admin Account</h2>
@@ -66,5 +69,6 @@ async function handleSubmit(e) {
         </div>
       </div>
     </div>
+    </>
   );
 }
