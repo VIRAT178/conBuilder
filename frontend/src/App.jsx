@@ -1,47 +1,34 @@
-import { Routes, Route } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Moon, Sun } from 'lucide-react'
+import LandingPage from './pages/LandingPage'
+import AdminPanel from './pages/AdminPanel'
+import AdminLogin from './pages/AdminLogin'
+import AdminSignup from './pages/AdminSignup'
 
-import LandingPage from "../src/pages/LandingPage.jsx";
-import AdminLogin from "../src/pages/AdminLogin";
-import AdminSignup from "../src/pages/AdminSignUp.jsx";
-import AdminDashboard from "../src/pages/AdminDashboard.jsx";
-import "./styles/main.css";
+export default function App() {
+  const [darkMode, setDarkMode] = useState(true)
 
-import ProtectedRoute from "./ProtectedRoute.jsx";
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [darkMode])
 
-function App() {
+  const toggleTheme = () => setDarkMode(!darkMode)
+
   return (
-    <>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-        style={{ zIndex: 10000 }}
-      />
-
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
-        <Route path="/admin-signup" element={<AdminSignup />} />
-        <Route
-          path="/admin/*"
-          element={
-            <ProtectedRoute>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </>
-  );
+    <Router>
+      <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'dark' : ''}`}>
+        <Routes>
+          <Route path="/" element={<LandingPage toggleTheme={toggleTheme} darkMode={darkMode} />} />
+          <Route path="/admin" element={<AdminPanel toggleTheme={toggleTheme} darkMode={darkMode} />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/signup" element={<AdminSignup />} />
+        </Routes>
+      </div>
+    </Router>
+  )
 }
-
-export default App;

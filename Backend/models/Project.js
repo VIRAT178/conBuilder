@@ -1,22 +1,29 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
 const projectSchema = new mongoose.Schema({
-  title: {
+  name: {
     type: String,
-    required: true,
-  },
-  imageUrl: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: String,
-    enum: ['Consultation', 'Design', 'Marketing & Design', 'Consultation & Marketing'],
-    required: true,
+    required: [true, 'Please provide a project name'],
+    trim: true,
+    maxlength: [100, 'Name cannot be more than 100 characters']
   },
   description: {
     type: String,
+    required: [true, 'Please provide a project description'],
+    maxlength: [1000, 'Description cannot be more than 1000 characters']
   },
-}, { timestamps: true });
+  image: {
+    type: String,
+    default: null
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  }
+})
 
-export default mongoose.model('Project', projectSchema);
+export default mongoose.model('Project', projectSchema)
